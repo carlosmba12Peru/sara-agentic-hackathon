@@ -1,0 +1,16 @@
+.gcloudignore
+.git
+.gitignore
+.dockerignore
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.env
+.env.*
+!.env.example
+ANALISIS_*.md
+ANALISIS_ESTRATEGICO_METODOLOGIA_SARA_SAGF_MC.md
+docs_privados/
+

@@ -1,0 +1,52 @@
+{
+  "id": "COL_PONAL",
+  "pais": "Colombia",
+  "bandera": "🇨🇴",
+  "nombre_completo": "República de Colombia - Dirección de Investigación Criminal e INTERPOL (DIJIN / GAULA)",
+  "agencia_policial": {
+    "sigla": "PONAL",
+    "nombre": "Policía Nacional de Colombia",
+    "division": "DIJIN / Dirección Antisecuestro y Antiextorsión (GAULA Policía)",
+    "sistema_denuncias": "SIEDCO (Sistema de Información Estadístico, Delincuencial y Contravencional) / ¡A Denunciar!"
+  },
+  "entidad_fiscal": {
+    "sigla": "FGN",
+    "nombre": "Fiscalía General de la Nación",
+    "especialidad": "DECOC - Dirección Especializada contra las Organizaciones Criminales",
+    "formato_carpeta": "Noticia Criminal (NUNC - Número Único de Noticia Criminal)"
+  },
+  "marco_legal": {
+    "decreto_principal": "Ley 599 de 2000 (Código Penal Colombiano) y Ley 733 de 2002",
+    "codigo_penal_delito": "Art. 244° Código Penal (Extorsión y Extorsión Agravada a Comercio/Transporte)",
+    "decretos_complementarios": [
+      "Ley 1908 de 2018 (Sometimiento a la Justicia de Grupos Armados Organizados)",
+      "Ley 906 de 2004 (Código de Procedimiento Penal de Colombia)",
+      "Resolución CRC 5111 de 2017 (Bloqueo de IMEI y Terminales Móviles)"
+    ],
+    "cadena_custodia": "Art. 254° y 255° del Código de Procedimiento Penal (Ley 906) - Manual Único de Cadena de Custodia Criptográfica",
+    "formato_oficio_remision": "OFICIO-INFORME-EJECUTIVO-GAULA-FGN"
+  },
+  "registro_identidad": {
+    "sigla": "RNEC",
+    "nombre": "Registraduría Nacional del Estado Civil (Cédula de Ciudadanía Digital)",
+    "plataforma_interop": "Carpeta Ciudadana Digital / RUNT / DIAN",
+    "migraciones": "Migración Colombia"
+  },
+  "peritaje_linguistico": {
+    "sigla": "MinCultura-DLN",
+    "entidad": "Ministerio de las Culturas, las Artes y los Saberes (Dirección de Lenguas Nativas)",
+    "nombre_registro": "Directorio Oficial de Traductores e Intérpretes en Lenguas Nativas (Ley 1381 de 2010)",
+    "url_tablero": "https://lenguasnativas.mincultura.gov.co/",
+    "lenguas_oficiales": [
+      {"id": "wayuunaiki", "nombre": "Wayuunaiki", "familia": "Arawak", "region": "La Guajira"},
+      {"id": "nasa_yuwe", "nombre": "Nasa Yuwe (Páez)", "familia": "Nasa", "region": "Cauca / Valle del Cauca"},
+      {"id": "embera", "nombre": "Emberá (Chamí / Katío)", "familia": "Chocó", "region": "Chocó / Antioquia / Risaralda"},
+      {"id": "namtrik", "nombre": "Namtrik (Guambiano)", "familia": "Barbacoana", "region": "Cauca"},
+      {"id": "tikuna", "nombre": "Tikuna", "familia": "Ticuna", "region": "Amazonas (Leticia)"}
+    ]
+  },
+  "sistema_telecom_bloqueo": {
+    "sigla": "MinTIC / CRC",
+    "norma_sancion": "Ley 1453 de 2011 / Sanciones por Uso Indebido y Engañoso de las Líneas de Emergencia 123"
+  }
+}

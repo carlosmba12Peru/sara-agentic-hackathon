@@ -1,0 +1,36 @@
+# ==============================================================================
+# SARA - Cognitive Extortion Response Agent
+# Google Cloud Build Configuration for Continuous Deployment to Cloud Run
+# ==============================================================================
+
+steps:
+  # Step 1: Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/sara-agent:$COMMIT_SHA', '.']
+
+  # Step 2: Push the container image to Google Container Registry / Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/sara-agent:$COMMIT_SHA']
+
+  # Step 3: Deploy container image to Google Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'sara-agent-service'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/sara-agent:$COMMIT_SHA'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'ENVIRONMENT=production'
+
+images:
+  - 'gcr.io/$PROJECT_ID/sara-agent:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

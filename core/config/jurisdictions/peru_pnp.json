@@ -1,0 +1,53 @@
+{
+  "id": "PER_PNP",
+  "pais": "Perú",
+  "bandera": "🇵🇪",
+  "nombre_completo": "República del Perú - Subsistema Especializado contra la Extorsión",
+  "agencia_policial": {
+    "sigla": "PNP",
+    "nombre": "Policía Nacional del Perú",
+    "division": "DIRNIC - División de Investigación de Homicidios y Extorsión (DIVINHOM)",
+    "sistema_denuncias": "SIDPOL (Sistema de Información de Denuncias Policiales)"
+  },
+  "entidad_fiscal": {
+    "sigla": "MPFN",
+    "nombre": "Ministerio Público - Fiscalía de la Nación",
+    "especialidad": "FECOR - Fiscalía Especializada contra la Criminalidad Organizada",
+    "formato_carpeta": "Carpeta Fiscal (CF) / Código Único de Caso (CUC)"
+  },
+  "marco_legal": {
+    "decreto_principal": "Decreto Legislativo N.° 1735 (Creación del Subsistema Especializado PNP/MPFN)",
+    "codigo_penal_delito": "Art. 200° Código Penal (Extorsión y Extorsión Agravada a Transporte/Comercio)",
+    "decretos_complementarios": [
+      "D.Leg. N.° 1731 (Medidas Cautelares de Congelamiento Inmediato de Billeteras/Cuentas)",
+      "D.Leg. N.° 1732 (Comiso e Incautación de Armas y Bienes)",
+      "D.Leg. N.° 1736 (Procedimiento de Bloqueo de Terminales Móviles e IMEI)",
+      "Ley N.° 30077 (Ley contra el Crimen Organizado)"
+    ],
+    "cadena_custodia": "Art. 220° del Código Procesal Penal (CPP) - Aseguramiento Criptográfico de Evidencias",
+    "formato_oficio_remision": "OFICIO-DIRNIC-PNP/DIVINHOM-EXTORSION"
+  },
+  "registro_identidad": {
+    "sigla": "RENIEC",
+    "nombre": "Registro Nacional de Identificación y Estado Civil",
+    "plataforma_interop": "PIDE (Plataforma de Interoperabilidad del Estado Peruano)",
+    "migraciones": "Superintendencia Nacional de Migraciones"
+  },
+  "peritaje_linguistico": {
+    "sigla": "ReNITLI",
+    "entidad": "Ministerio de Cultura del Perú (MINCUL)",
+    "nombre_registro": "Registro Nacional de Intérpretes y Traductores de Lenguas Indígenas",
+    "url_tablero": "https://traductoresdelenguas.cultura.pe/",
+    "lenguas_oficiales": [
+      {"id": "quechua", "nombre": "Quechua (Runasimi)", "familia": "Quechua (Cusco-Collao, Chanka, Áncash)", "region": "Sierra Sur y Central"},
+      {"id": "aimara", "nombre": "Aimara (Aymara)", "familia": "Aru", "region": "Puno / Altiplano"},
+      {"id": "ashaninka", "nombre": "Asháninka", "familia": "Arawak", "region": "Selva Central (Satipo / Junín)"},
+      {"id": "awajun", "nombre": "Awajún", "familia": "Jíbaro", "region": "Selva Norte (Condorcanqui / Amazonas)"},
+      {"id": "shipibo", "nombre": "Shipibo-Konibo", "familia": "Pano", "region": "Ucayali / Pucallpa"}
+    ]
+  },
+  "sistema_telecom_bloqueo": {
+    "sigla": "MTC / OSIPTEL",
+    "norma_sancion": "D.S. N.° 020-2020-MTC / D.L. N.° 1277 (Suspensión de Líneas y Multas por Falsas Alarmas)"
+  }
+}

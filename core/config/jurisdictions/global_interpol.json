@@ -1,0 +1,52 @@
+{
+  "id": "GLOBAL_INTERPOL",
+  "pais": "Global / Estados Unidos",
+  "bandera": "🌐",
+  "nombre_completo": "Global Jurisdiction - Federal & International Law Enforcement Framework (CJIS / INTERPOL)",
+  "agencia_policial": {
+    "sigla": "FBI / INTERPOL",
+    "nombre": "Federal Bureau of Investigation / International Criminal Police Organization",
+    "division": "Cyber & Violent Crimes Division / Anti-Extortion Strike Force",
+    "sistema_denuncias": "NIBRS (National Incident-Based Reporting System) / CAD 911"
+  },
+  "entidad_fiscal": {
+    "sigla": "DOJ",
+    "nombre": "United States Department of Justice / International Prosecution Service",
+    "especialidad": "Organized Crime and Gang Section (OCGS / Cyber Crime Section)",
+    "formato_carpeta": "Federal Criminal Indictment / Grand Jury Case Number"
+  },
+  "marco_legal": {
+    "decreto_principal": "Title 18 U.S. Code § 1951 (Hobbs Act - Extortion, Racketeering, and Threat Operations)",
+    "codigo_penal_delito": "18 U.S.C. § 875 (Interstate Extortionate Communications) & 18 U.S.C. § 1962 (RICO Act)",
+    "decretos_complementarios": [
+      "USA PATRIOT Act Title III (Anti-Money Laundering and Illicit Asset Forfeiture)",
+      "Federal Rules of Criminal Procedure (Rule 41 - Search, Seizure & Digital Evidence)",
+      "FCC 47 CFR Part 64 (STIR/SHAKEN Protocol & Caller ID Spoofing Mitigation)"
+    ],
+    "cadena_custodia": "Federal Rules of Evidence Rule 901(b)(9) & NIST SP 800-86 (Cryptographic SHA-256 Digital Forensics)",
+    "formato_oficio_remision": "FBI-FORM-FD-302-NIBRS-EVIDENCE-PACKAGE"
+  },
+  "registro_identidad": {
+    "sigla": "SSA / DHS",
+    "nombre": "Social Security Administration / Department of Homeland Security",
+    "plataforma_interop": "National Crime Information Center (NCIC) / REAL ID / Biometric US-VISIT",
+    "migraciones": "U.S. Citizenship and Immigration Services (USCIS) / CBP"
+  },
+  "peritaje_linguistico": {
+    "sigla": "ATA / Court-Interpreters",
+    "entidad": "American Translators Association (ATA) & National Center for State Courts (NCSC)",
+    "nombre_registro": "Federal Court Certified Interpreters Registry",
+    "url_tablero": "https://www.uscourts.gov/services-forms/federal-court-interpreters",
+    "lenguas_oficiales": [
+      {"id": "english", "nombre": "English (US / UK / Global)", "familia": "Indo-European / Germanic", "region": "International / North America"},
+      {"id": "spanish", "nombre": "Spanish (Castilian / LatAm)", "familia": "Romance", "region": "Americas / Europe"},
+      {"id": "french", "nombre": "French (Français)", "familia": "Romance", "region": "Europe / Canada / Africa"},
+      {"id": "mandarin", "nombre": "Mandarin Chinese (普通话)", "familia": "Sino-Tibetan", "region": "Asia / Global"},
+      {"id": "arabic", "nombre": "Standard Arabic (العربية)", "familia": "Afroasiatic", "region": "Middle East / North Africa"}
+    ]
+  },
+  "sistema_telecom_bloqueo": {
+    "sigla": "FCC",
+    "norma_sancion": "Ray Baum's Act / False 911 Distress Call Penalties (18 U.S.C. § 1038)"
+  }
+}

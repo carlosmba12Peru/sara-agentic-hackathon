@@ -1,0 +1,52 @@
+{
+  "id": "MEX_SSPC",
+  "pais": "México",
+  "bandera": "🇲🇽",
+  "nombre_completo": "Estados Unidos Mexicanos - Sistema Nacional de Seguridad Pública (SSPC)",
+  "agencia_policial": {
+    "sigla": "SSPC / GN",
+    "nombre": "Secretaría de Seguridad y Protección Ciudadana - Guardia Nacional",
+    "division": "CONASE - Coordinación Nacional Antisecuestro y Antiextorsión",
+    "sistema_denuncias": "C5 / 911 / Plataforma México (IPH Digital)"
+  },
+  "entidad_fiscal": {
+    "sigla": "FGR",
+    "nombre": "Fiscalía General de la República",
+    "especialidad": "FEMDO - Fiscalía Especializada en Materia de Delincuencia Organizada",
+    "formato_carpeta": "Carpeta de Investigación (CI) / NUC (Número Único de Causa)"
+  },
+  "marco_legal": {
+    "decreto_principal": "Ley General para Prevenir y Sancionar los Delitos en Materia de Secuestro y Extorsión",
+    "codigo_penal_delito": "Art. 390° Código Penal Federal (Extorsión, Cobro de Piso y Delincuencia Organizada)",
+    "decretos_complementarios": [
+      "Art. 2° Ley Federal contra la Delincuencia Organizada (LFCDO)",
+      "CNPP Art. 252 (Actos de Investigación que Requieren Control Judicial Previo)",
+      "Ley Federal de Telecomunicaciones y Radiodifusión (Bloqueo de IMEI y Señal Penitenciaria)"
+    ],
+    "cadena_custodia": "Art. 227° y 228° del Código Nacional de Procedimientos Penales (CNPP) - Registro y Resguardo Criptográfico",
+    "formato_oficio_remision": "IPH-INFORME-POLICIAL-HOMOLOGADO-FGR"
+  },
+  "registro_identidad": {
+    "sigla": "RENAPO",
+    "nombre": "Registro Nacional de Población (Clave Única de Registro de Población - CURP)",
+    "plataforma_interop": "Ventanilla Única Nacional / SAT / Plataforma México",
+    "migraciones": "Instituto Nacional de Migración (INM)"
+  },
+  "peritaje_linguistico": {
+    "sigla": "INALI",
+    "entidad": "Instituto Nacional de Lenguas Indígenas (Secretaría de Cultura)",
+    "nombre_registro": "Padrón Nacional de Intérpretes y Traductores en Lenguas Indígenas (PANITLI)",
+    "url_tablero": "https://panitli.inali.gob.mx/",
+    "lenguas_oficiales": [
+      {"id": "nahuatl", "nombre": "Náhuatl (Mexicano)", "familia": "Yuto-nahua", "region": "Puebla, Veracruz, Hidalgo, Guerrero"},
+      {"id": "maya", "nombre": "Maya Peninsular (Maaya t'aan)", "familia": "Maya", "region": "Yucatán, Quintana Roo, Campeche"},
+      {"id": "zapoteco", "nombre": "Zapoteco (Diidxazá)", "familia": "Oto-mangue", "region": "Oaxaca / Istmo"},
+      {"id": "mixteco", "nombre": "Mixteco (Tu'un sávi)", "familia": "Oto-mangue", "region": "Oaxaca / Guerrero / Puebla"},
+      {"id": "tzeltal", "nombre": "Tseltal / Tsotsil", "familia": "Maya", "region": "Chiapas"}
+    ]
+  },
+  "sistema_telecom_bloqueo": {
+    "sigla": "IFT",
+    "norma_sancion": "Lineamientos IFT / Código Penal Federal Art. 390 (Sanción por Llamadas y Reportes Falsos al 911)"
+  }
+}

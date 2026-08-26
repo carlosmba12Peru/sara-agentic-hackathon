@@ -545,12 +545,13 @@ CORPUS_NORMATIVO_PERU = {
             "impacto_sara": "Fundamento legal y pericial para la ingesta en Quechua, Aimara, Ashaninka, Awajún y Shipibo-Konibo y la interoperabilidad con traductores colegiados de ReNITLI."
         },
         "ESTRATEGIA_NACIONAL_IA_ENIA_2026_2030": {
-            "norma": "Estrategia Nacional de Inteligencia Artificial (ENIA 2026-2030 - PCM / SGTD)",
-            "titulo": "Estrategia Nacional de Inteligencia Artificial del Perú",
-            "fuente_oficial_gob_pe": "https://www.gob.pe/institucion/pcm/informes-publicaciones/enia-2026-2030",
+            "norma": "Resolución Ministerial N.° 152-2026-PCM (Aprobación de la Estrategia Nacional de Inteligencia Artificial 2026-2030 - ENIA)",
+            "titulo": "Aprobación de la Estrategia Nacional de Inteligencia Artificial 2026 - 2030",
+            "fecha_promulgacion": "29 de abril de 2026",
+            "fuente_oficial_gob_pe": "https://www.gob.pe/institucion/pcm/normas-legales/8081563-152-2026-pcm",
             "compendio_pcm_url": "https://www.gob.pe/institucion/pcm/colecciones/147-normativa-sobre-transformacion-digital",
-            "lineas_estrategicas": "IA ética para la seguridad ciudadana, soberanía de datos y preservación de lenguas originarias.",
-            "impacto_sara": "SARA se posiciona como el caso de éxito y estándar de implementación práctica de la ENIA en el sector justicia."
+            "lineas_estrategicas": "Instrumento estratégico de alcance nacional que ordena y articula las intervenciones del Estado para desarrollar y fortalecer el gobierno y la gestión de la Inteligencia Artificial en el país con visión de largo plazo.",
+            "impacto_sara": "SARA se posiciona como el caso de éxito y estándar de implementación práctica de la ENIA 2026-2030 en el sector justicia y seguridad ciudadana, cumpliendo los ejes de soberanía tecnológica, protección de datos y lenguas originarias."
         }
     }
 }

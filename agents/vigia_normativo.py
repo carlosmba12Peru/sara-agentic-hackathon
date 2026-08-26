@@ -43,6 +43,8 @@ KEYWORDS_VIGILANCIA_PERU = [
     "sgtd", "transformación digital", "política nacional de transformación digital",
     "pntd 2030", "d.s. 085-2023-pcm", "servicio s3.3.1", "sello digital",
     "programa de reconocimientos", "resolución 002-2026-pcm/sgtd",
+    "estrategia nacional de inteligencia artificial", "enia 2026-2030", "r.m. 152-2026-pcm",
+    "resolución ministerial 152-2026-pcm", "8081563-152-2026-pcm",
     "acuerdo plenario", "prueba digital", "evidencia informática",
     "protección de datos personales", "ley 29733", "bóveda zero-pii",
     "soberanía tecnológica", "lenguas originarias", "ley 29735",

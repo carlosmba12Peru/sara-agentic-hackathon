@@ -1,0 +1,45 @@
+PROPRIETARY AND CONFIDENTIAL SOURCE CODE LICENSE
+RESTRICTED EVALUATION LICENSE - ALL RIGHTS RESERVED
+
+Copyright (c) 2026 Carlos Eduardo Baños Diaz.
+All Rights Reserved.
+
+Project: SARA - Sistema Autónomo de Respuesta Anti-Extorsión
+Platform: Google Cloud & Devpost "All Things Agentic Hackathon"
+
+================================================================================
+1. GRANT OF RESTRICTED EVALUATION LICENSE
+================================================================================
+Permission is hereby granted solely to the official judging panel, organizers, 
+and authorized technical evaluators of the "All Things Agentic Hackathon" 
+(specifically including testing@devpost.com and cloudhackathons@google.com) 
+to access, view, execute, and evaluate this software and associated documentation 
+exclusively for the purpose of assessing this submission.
+
+================================================================================
+2. PROHIBITION OF COPYING, REDISTRIBUTION, AND COMMERCIAL USE
+================================================================================
+Except as expressly permitted under Section 1:
+- NO part of this software, architecture, algorithms, agent designs, mathematical
+  formulations (including the IRCE / T-index model and SAGF-MC methodologies), 
+  prompts, or documentation may be copied, reproduced, distributed, sublicensed, 
+  reverse-engineered, decompiled, publicly disclosed, or used in any commercial, 
+  governmental, or production environment without prior written authorization from 
+  the author and copyright holder: Carlos Eduardo Baños Diaz.
+
+================================================================================
+3. INTELLECTUAL PROPERTY AND MORAL RIGHTS
+================================================================================
+All intellectual property rights, moral rights, patents, trade secrets, software 
+architecture, and copyright in and to this codebase are and shall remain the sole 
+and exclusive property of Carlos Eduardo Baños Diaz.
+
+================================================================================
+4. DISCLAIMER OF WARRANTY
+================================================================================
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS 
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE 
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
+USE OR OTHER DEALINGS IN THE SOFTWARE.

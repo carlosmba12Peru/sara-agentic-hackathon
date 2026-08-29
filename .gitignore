@@ -1,0 +1,60 @@
+# ==============================================================================
+# SARA - Configuración de Git Ignore (.gitignore)
+# ==============================================================================
+
+# 1. Variables de entorno y secretos (CRÍTICO: Nunca subir credenciales)
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+credentials.json
+client_secrets.json
+.streamlit/secrets.toml
+
+# 2. Entornos virtuales de Python
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# 3. Archivos compilados, cachés y logs de Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.log
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+
+# 4. Archivos temporales de pruebas y evidencias generadas localmente
+uploads/*
+!uploads/.gitkeep
+
+# 5. Archivos de configuración de IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 6. Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 7. Documentos de análisis estratégico y metodológico privado
+ANALISIS_*.md
+ANALISIS_ESTRATEGICO_METODOLOGIA_SARA_SAGF_MC.md
+docs_privados/
+*.zip
+sara-app/
+
+
+
+
+

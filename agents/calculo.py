@@ -174,5 +174,6 @@ class CalculoRiesgoAgent:
         }
 
 
+CalculoAgent = CalculoRiesgoAgent
 calculo_agent = CalculoRiesgoAgent()
 

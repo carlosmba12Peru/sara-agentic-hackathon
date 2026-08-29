@@ -210,5 +210,6 @@ class EmpaquetadorNormativoAgent:
         }
 
 
+EmpaquetadorAgent = EmpaquetadorNormativoAgent
 empaquetador_agent = EmpaquetadorNormativoAgent()
 

@@ -20,6 +20,30 @@ st.set_page_config(
 if "caso_sara_real" not in st.session_state:
     st.session_state.caso_sara_real = None
 
+# ==============================================================================
+# 🚨 BANNER OFICIAL DE DESCARGO DE RESPONSABILIDAD (HACKATHON EXPERIMENTAL PoC)
+# ==============================================================================
+st.markdown("""
+<div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(220, 38, 38, 0.16) 100%); border: 2px solid #f59e0b; border-radius: 14px; padding: 14px 20px; margin-bottom: 18px; box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2);">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 280px;">
+            <span style="font-size: 2.2rem; line-height: 1;">⚠️</span>
+            <div>
+                <div style="font-weight: 800; color: #fcd34d; font-size: 0.98rem; letter-spacing: 0.3px;">ENTORNO DE DEMOSTRACIÓN TÉCNICA — HACKATHON GOOGLE CLOUD 2026</div>
+                <div style="font-size: 0.84rem; color: #f1f5f9; margin-top: 2px; line-height: 1.35;">
+                    Este prototipo es una <b>prueba de concepto experimental de Inteligencia Artificial</b> para evaluación técnica. <b>NO constituye un canal oficial en vivo de denuncias de la PNP ni del MININTER.</b><br/>
+                    🏷️ <b>Cláusula de Datos Sintéticos (Ley N° 29733):</b> Todos los datos de los Casos Modelo son <b>100% ficticios y sintéticos</b> con fines exclusivos de demostración técnica.
+                </div>
+            </div>
+        </div>
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid #f59e0b; border-radius: 10px; padding: 8px 14px; text-align: center;">
+            <div style="font-size: 0.74rem; color: #cbd5e1; font-weight: 700; text-transform: uppercase;">🚨 Emergencias Reales:</div>
+            <div style="font-size: 0.92rem; font-weight: 800; color: #38bdf8;">📞 Línea 111 (Extorsión) | 📞 105 (PNP)</div>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
 # Pestañas principales
 tab_ciudadano, tab_operativa = st.tabs([
     "📋 Portal de Registro (Ciudadano - Kallpa)", 
@@ -31,21 +55,75 @@ with tab_ciudadano:
     st.markdown(
         "**Sistema Multiagente Anti-Extorsión** con aislamiento **Zero-PII** e inclusión en **Quechua y Castellano**."
     )
+    
+    # 🔒 MODO SANDBOX ESTRICTO
+    st.markdown("""
+    <div style="background: rgba(8, 51, 68, 0.35); border-left: 4px solid #38bdf8; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;">
+        <span style="font-weight: 800; color: #38bdf8; font-size: 0.88rem;">🔒 MODO SANDBOX (CASOS MODELO SINTÉTICOS):</span>
+        <span style="font-size: 0.82rem; color: #cbd5e1; margin-left: 4px;">
+            Para proteger la privacidad de la ciudadanía (Ley N° 29733), este entorno opera con casos de prueba sintéticos precargados.
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Presets de Casos Modelo
+    CASOS_PRESET_LIVIANOS = {
+        "sjl_bomba": {
+            "nombre": "Juan Carlos Quispe Huamán",
+            "dni": "45879612",
+            "telefono": "+51987654321",
+            "direccion": "Av. Próceres de la Independencia 1234, San Juan de Lurigancho",
+            "mensaje": "Me dejaron una nota con dos balas y una granada en mi pollería en San Juan de Lurigancho. Me piden 5000 soles mensuales a la cuenta BCP 19198765432100 y llaman del 999111222 amenazando con quemar mi local hoy a las 5pm si no pago."
+        },
+        "cusco_quechua": {
+            "nombre": "Santosa Condori Mamani",
+            "dni": "71234567",
+            "telefono": "+51977665544",
+            "direccion": "Comunidad Campesina de Chinchero, Urubamba, Cusco",
+            "mensaje": "Allillanchu mamay, yanapaywayku. Huk qari préstamoto qowarqan Chinchero Cuscopi, kunantaq sapa p'unchay qullqita mañawan, 'wañuchisayki wasiykitapas ruphachisayki' nispa 988776655 numeromanta."
+        },
+        "trujillo_sextorsion": {
+            "nombre": "Andrea Flores Vega",
+            "dni": "73445566",
+            "telefono": "+51944332211",
+            "direccion": "Urb. San Andrés Mz. C Lt. 4, Trujillo, La Libertad",
+            "mensaje": "Tienen fotografías privadas mías en Trujillo Urb San Andrés y me exigen 2000 soles por Yape al 955112233 en menos de 12 horas o las difundirán a mis contactos de trabajo."
+        }
+    }
+    
+    col_pre1, col_pre2, col_pre3 = st.columns(3)
+    if "form_preset_data" not in st.session_state:
+        st.session_state.form_preset_data = CASOS_PRESET_LIVIANOS["sjl_bomba"]
+        
+    with col_pre1:
+        if st.button("💥 Caso 1: SJL (Bomba a Pollería)", use_container_width=True):
+            st.session_state.form_preset_data = CASOS_PRESET_LIVIANOS["sjl_bomba"]
+            st.rerun()
+    with col_pre2:
+        if st.button("🗣️ Caso 2: Cusco (Quechua)", use_container_width=True):
+            st.session_state.form_preset_data = CASOS_PRESET_LIVIANOS["cusco_quechua"]
+            st.rerun()
+    with col_pre3:
+        if st.button("📱 Caso 3: Trujillo (Sextorsión)", use_container_width=True):
+            st.session_state.form_preset_data = CASOS_PRESET_LIVIANOS["trujillo_sextorsion"]
+            st.rerun()
+
     st.markdown("---")
 
+    cur_p = st.session_state.form_preset_data
     with st.form("form_denuncia_kallpa"):
         st.subheader("Datos de la Víctima (Aislamiento en Secure Vault)")
-        nombre = st.text_input("Nombre Completo de la Víctima", value="", placeholder="Ej. Lucía Huamán Condori")
-        dni = st.text_input("DNI o Identificación", value="", placeholder="Ej. 44556677")
-        telefono = st.text_input("Teléfono de Contacto", value="", placeholder="Ej. +51988776655")
-        direccion = st.text_input("Dirección (Opcional)", value="", placeholder="Ej. Plaza de Armas S/N, Ayacucho")
+        nombre = st.text_input("Nombre Completo de la Víctima", value=cur_p["nombre"])
+        dni = st.text_input("DNI o Identificación", value=cur_p["dni"])
+        telefono = st.text_input("Teléfono de Contacto", value=cur_p["telefono"])
+        direccion = st.text_input("Dirección", value=cur_p["direccion"])
         
         st.markdown("---")
         st.subheader("Detalle del Caso")
         mensaje = st.text_area(
             "Mensaje de Extorsión (Soporta Español y Quechua / Rimasqanchikpi yachaykachiy)",
-            value="",
-            placeholder="Escribe o pega el relato o mensaje de extorsión recibido..."
+            value=cur_p["mensaje"],
+            height=120
         )
         
         st.markdown("### Evidencia Multimedia (Para Forense Extractor)")

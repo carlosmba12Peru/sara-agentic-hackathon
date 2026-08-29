@@ -2,13 +2,13 @@
 Asigna de forma granular y dinámica los modelos Gemini de Google (Flash vs. Pro Reasoning)
 según la complejidad cognitiva, exigencia de latencia y presupuesto de razonamiento (Reasoning Budget) de cada agente.
 
-Arquitectura Dual-Brain (Google Cloud & Gemini 3.7):
-1. TIER FLASH_FAST (gemini-3.7-flash):
-   - Agentes: Centinela (Pre-Triaje y VAD Anti-Spam), Kallpa (Contención empática en Quechua/Castellano).
+Arquitectura Dual-Brain (Google Cloud & Gemini 3.5):
+1. TIER FLASH_FAST (gemini-3.5-flash):
+   - Agentes: Centinela (Pre-Triaje y VAD Anti-Spam), Amparo IA (Contención empática en 7 lenguas originarias).
    - Perfil: Latencia objetivo <300ms, streaming instantáneo, temperatura 0.3.
-2. TIER PRO_REASONING (gemini-3.7-pro):
+2. TIER PRO_REASONING (gemini-3.5-flash / Pro):
    - Agentes: Analista Pro (Inteligencia Criminal), SubAgenteForenseExtractor (Visión OCR), Asesor Jurídico.
-   - Perfil: Thinking Budget activado (hasta 2048 tokens), temperatura 0.1, razonamiento deductivo multi-salto.
+   - Perfil: Thinking Budget optimizado, temperatura 0.1, razonamiento deductivo multi-salto y extracción pericial.
 """
 
 import os
@@ -18,8 +18,8 @@ from typing import Dict, Any, Optional
 
 logger = logging.getLogger("sara.agents.router")
 
-DEFAULT_FLASH_MODEL = os.getenv("GEMINI_FLASH_MODEL", "gemini-3.7-flash")
-DEFAULT_PRO_MODEL = os.getenv("GEMINI_PRO_MODEL", "gemini-3.7-pro")
+DEFAULT_FLASH_MODEL = os.getenv("GEMINI_FLASH_MODEL", "gemini-3.5-flash")
+DEFAULT_PRO_MODEL = os.getenv("GEMINI_PRO_MODEL", "gemini-3.5-flash")
 
 
 class AgentBrainTier(str, Enum):

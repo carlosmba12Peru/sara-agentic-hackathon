@@ -3,11 +3,16 @@
 > **A Sovereign Multi-Agent Cognitive Platform on Google Cloud to Repower Emergency Hotlines (Hotline 111) and Empower the National Police (PNP) and Public Prosecution (FECOR) with Zero-PII Cryptography.**  
 > *Developed for the [All Things Agentic Hackathon on Devpost](https://allthingsagentichackathon.devpost.com/) — Main Category: **The Taskmaster** & Candidate for **Best Multimodal UX** and **Best Architectural Design**.*  
 > 🌐 **Official Live Production Link (Google Cloud Run):** [https://sara-produccion-981735936523.us-central1.run.app/](https://sara-produccion-981735936523.us-central1.run.app/)  
+> 📰 **Technical Deep-Dive Article on Dev.to:** [https://dev.to/carlosmba12peru/building-sara-a-sovereign-multi-agent-ai-system-on-google-cloud-to-eliminate-extortion-and-break-ac8](https://dev.to/carlosmba12peru/building-sara-a-sovereign-multi-agent-ai-system-on-google-cloud-to-eliminate-extortion-and-break-ac8)  
+> 📱 **Official Social Announcement (LinkedIn):** [https://www.linkedin.com/feed/update/urn:li:activity:7498544623099830272](https://www.linkedin.com/feed/update/urn:li:activity:7498544623099830272)  
 > 🤖 **Official Citizen Notification Bot (Telegram):** [@kallpa_IA_asistente_bot](https://t.me/kallpa_IA_asistente_bot)  
 
 > ⚠️ **Institutional Independence & Intellectual Property Disclaimer:**  
 > **SARA is an independent research, software prototype, and demonstrative project conceived, designed, and developed exclusively by Carlos Eduardo Baños Diaz for the "All Things Agentic Hackathon" organized by Google Cloud & Devpost.**  
-> It is **not** an official platform, nor does it hold institutional representation, sponsorship, or formal endorsement from the **Peruvian National Police (PNP)**, the **Ministry of the Interior (MININTER)**, the **Public Ministry (Fiscalía de la Nación)**, or any other agency of the Republic of Peru. All references to public institutions, statutory frameworks (Legislative Decrees No. 1735, 1731, Law No. 32183, Law No. 32303, D.S. 007-2025-JUS), official datasets (SIDPOL, Public Ministry / IPE reports), and technical platforms (PIDE) are used strictly as a realistic domain model and engineering benchmark for academic and demonstrative purposes under strict privacy standards.
+> It is **not** an official platform, nor does it hold institutional representation, sponsorship, or formal endorsement from the **Peruvian National Police (PNP)**, the **Ministry of the Interior (MININTER)**, the **Public Ministry (Fiscalía de la Nación)**, or any other agency of the Republic of Peru. All references to public institutions, statutory frameworks (Legislative Decrees No. 1735, 1731, Law No. 32183, Law No. 32303, D.S. 007-2025-JUS), official datasets (SIDPOL, Public Ministry / IPE reports), and technical platforms (PIDE) are used strictly as a realistic domain model and engineering benchmark for academic and demonstrative purposes under strict privacy standards.  
+>  
+> 🔒 **Synthetic Data & Ethical Privacy Disclosure (Peruvian Law No. 29733 & Zero-PII):**  
+> All personal and contextual data (including citizen names, national IDs/DNIs, phone numbers, bank accounts, physical addresses, and threat narratives) displayed across SARA's interactive demonstration cases are **100% synthetic, fictitious, and procedurally generated** solely for technical evaluation, load testing, and AI architecture benchmarking. They do not represent, reference, or belong to any real person, business, or active criminal investigation.
 
 ---
 
@@ -29,31 +34,43 @@
 
 ---
 
-## 💡 1. Inspiration: Breaking the 80% Silence of Extortion & The Impunity Bottleneck
+## 💡 1. Inspiration: Breaking the 85% Silence of Extortion & The Impunity Funnel
 
-Extortion and violent racketeering have escalated into an illicit industry that paralyzes emerging economies. In Peru alone, official police statistics (**SIDPOL**) recorded **130,934 property crime complaints in just 5 months (projected to reach 300,000 to 350,000 annual complaints in police stations)**. 
+Extortion and violent racketeering have escalated into an illicit industry that paralyzes emerging economies. While property crimes exceed **350,000 annual complaints in Peruvian police stations (130,934 recorded in just 5 months of 2026 in SIDPOL)**, extortion represents the most violent, lethal, and destructive category.
 
-Yet, official reports from the **Peruvian Institute of Economics (IPE), the Public Ministry, and INEI (2026)** reveal a catastrophic institutional bottleneck: **only 27,000 extortion complaints reach the prosecution (Public Ministry) per year** (despite multiplying by 5.3x since 2021).
+Cross-referencing official 2026 data from the **Public Ministry (MPFN)**, **Ministry of the Interior (MININTER/SIDPOL)**, **Judiciary (Justicia TV / Flagrancy Courts)**, **SINADEF**, and the **Peruvian Institute of Economics (IPE)** reveals the full-year 2026 institutional projection and devastating toll:
 
 ```
-   ┌────────────────────────────────────────────────────────────────────────┐
-   │            🚨 THE EXTORTION IMPUNITY FUNNEL IN PERU                    │
-   │                                                                        │
-   │  [ 350,000+ Annual Property Crime Complaints in Police Stations ]      │
-   │                              │                                         │
-   │                              ▼  (Only <9% reach prosecutors)           │
-   │  [ 27,000 Extortion Cases Formally Reaching Prosecution (MPFN) ]       │
-   │                              │                                         │
-   │                              ▼  (Over 91% collapse in paper limbo)     │
-   │  [ Over 80% of Victims Never Report in Person out of Mortal Fear ]     │
-   └────────────────────────────────────────────────────────────────────────┘
+   ┌────────────────────────────────────────────────────────────────────────────────────────┐
+   │ 🚨 2026 FULL-YEAR EXTORTION IMPUNITY PROJECTION (CROSS-INSTITUTIONAL PERU DATA)        │
+   │                                                                                        │
+   │ 1. 👥 REAL STREET ATTACKS (Dark Figure):        170,000 to 250,000 Real Extortions/Yr  │
+   │    • Over 85% - 90% Never Report due to mortal fear of corrupt leaks and retaliation.  │
+   │                                                                                        │
+   │ 2. 👮 POLICE STATION COMPLAINTS (SIDPOL):       ~18,500 to 20,000 Formal Complaints   │
+   │    • Official base: 7,694 explicit extortion complaints in 5 months (Jan–May 2026).    │
+   │                                                                                        │
+   │ 3. ⚖️ PROSECUTION CASELOAD (MPFN / FECOR):       ~25,300 to 27,500 Formal Crimes/Yr     │
+   │    • Official base: 12,634 crimes in 1st Semester 2026 (Jan–Jun / 70 crimes per day).  │
+   │                                                                                        │
+   │ 4. 👨‍⚖️ FLAGRANCY COURT TRIALS (Judiciary):        ~230 to 250 Cases Judged / Year        │
+   │    • Official base: 115 cases in 1st Semester 2026 (78 cases in full year 2025).       │
+   │   ───────────────────────────────────────────────────────────────────────────────────  │
+   │   🛑 JUDICIAL RESOLUTION RATE (vs. Prosecution):   0.92%  (Only 1 in ~100 crimes)      │
+   │   🛑 REAL JUDICIAL RESOLUTION RATE (vs. Streets):   0.12%  (Only 1 in ~830 extortions)  │
+   │   🚪 PROJECTED SYSTEMIC IMPUNITY RATE (2026):       99.08% to 99.88% Unpunished        │
+   │   *(Note: Linear annualized 2026 projections based on official Jan–May and Jan–Jun data)* │
+   └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-This exposes a devastating reality: **less than 9% of complaints filed in police stations ever transition into formal prosecution dossiers**, leaving over 91% trapped in bureaucratic police limbo without asset freezes or judicial warrants. In the public transit sector alone, prosecution records document **214 armed attacks with casualties** against buses, combis, and mototaxis.
+### 🩸 The Human and Economic Toll
+* **Record Homicide & Contract Killing Peak (SINADEF / Infobae 2026):** Peru reached its all-time violent record with **2,218 annual homicides (6.07 murders per day)**, with over **85% committed by firearms** tied to extortion rackets and turf wars.
+* **Mass Murder in Public Transit (Public Ministry 2026 Report):** Prosecution records identify **214 armed attacks with 283 human casualties (152 killed by contract killers and 131 wounded)** against buses and mototaxis. The monthly victim rate **doubled in 2026 to 22.4 victims/month**, alongside **39 explosive bombings** against transport terminals.
+* **Catastrophic Economic Drain (IPE):** Insecurity inflicts an annual cost of **S/ 20,000 Million (~3% of National GDP)**, impacting over **2 million businesses and MSMEs**. Formal companies surrender **5.6% to 8.5% of net revenues** to private security, while neighborhood bodegas in Lima lose **S/ 500,000 daily** to *"gota a gota"* usury and protection rackets.
+* **The 70,000 Police Deficit & Detective Shortage (Perú21 / LP Derecho):** Peru faces a structural deficit of **70,000 police officers**, with less than 5% specialized in forensics or criminal investigation (detectives). Overwhelmed precinct officers draft unstructured paper memos that get dismissed by judges for lacking chain of custody (**Art. 220 CPP**).
+* **The Judicial Bottleneck (Only 0.92% Judged):** Traditional paper files arrive weeks late—long after the 48-hour flagrancy window expires—causing Flagrancy Courts to process only ~240 cases per year while gang leaders walk free (*"revolving door"*).
 
-To make matters worse, over **80% of extortion victims never dare to report in person (the "Dark Figure" of crime)** out of mortal terror of corrupt identity leaks, 48-hour bureaucratic delays, and deadly retaliation. Victims prefer paying daily quotas (*"cupos"*) via mobile wallets (Yape/Plin) rather than risking their families.
-
-We built **SARA (Sistema Autónomo de Respuesta Anti-Extorsión)** to dismantle both bottlenecks: an autonomous, sovereign multi-agent cognitive copilot that empowers citizens to report safely from their phones under a mathematical **Zero-PII guarantee (Code CUP)** in **Quechua, Aimara, Asháninka, Awajún, Shipibo-Konibo, Spanish, and English**, while transforming emergency intake into **1.8 seconds of forensic investigation and direct digital transmission to the Specialized Prosecution Office (Legislative Decree No. 1735)**.
+We built **SARA (Sistema Autónomo de Respuesta Anti-Extorsión)** to dismantle this entire impunity funnel as an **autonomous force multiplier**: an autonomous, sovereign multi-agent cognitive copilot that empowers citizens to report safely from their phones under a mathematical **Zero-PII guarantee (Code CUP)** in **Quechua, Aimara, Asháninka, Awajún, Shipibo-Konibo, Spanish, and English**, while equipping police and prosecutors with **1.8 seconds of forensic investigation and direct digital transmission to the Specialized Prosecution Office (Legislative Decree No. 1735)** for immediate conviction in Flagrancy Courts.
 
 ---
 
@@ -61,7 +78,7 @@ We built **SARA (Sistema Autónomo de Respuesta Anti-Extorsión)** to dismantle 
 
 SARA acts as the cognitive intelligence and digital forensics copilot for police emergency hotlines (Hotline 111) and police command centers:
 
-* 🗣️ **Inclusive Intake in Native Languages & Anti-Spam (Centinela & Kallpa):** Pre-triage acoustic analysis filters prank/silent calls in <300ms (**D.S. 020-2020-MTC**), while providing empathetic containment over live WebRTC voice (<600ms latency) in **Quechua (Cusco-Collao, Chanka, Áncash, Wanka dialects), Aimara, Asháninka, Awajún, Shipibo-Konibo, Spanish, and English** (Law No. 29735 & ReNITLI/MINCUL).
+* 🗣️ **Inclusive Intake in Native Languages & Anti-Spam (Centinela & Amparo):** Pre-triage acoustic analysis filters prank/silent calls in <300ms (**D.S. 020-2020-MTC**), while providing empathetic containment over live WebRTC voice (<600ms latency) in **Quechua (Cusco-Collao, Chanka, Áncash, Wanka dialects), Aimara, Asháninka, Awajún, Shipibo-Konibo, Spanish, and English** (Law No. 29735 & ReNITLI/MINCUL).
 * 🔒 **Cryptographic Zero-PII Vault (Privacy by Design):** Victim identities (National ID, Full Name, Phone, Address) are immediately isolated with HMAC-SHA256 and CSPRNG salt upon ingestion, issuing an anonymous **Unique Protection Code (CUP)**. Downstream LLMs strictly process the CUP, preventing internal data exfiltration (Art. 409-C Criminal Code).
 * 🔍 **Multimodal Vision OCR & Forensic Extraction (Art. 220 CPP):** Automated peritaje of handwritten extortion notes, ammunition casings, and digital wallet transfers (Yape/Plin/BCP/BBVA) with unalterable **SHA-256 digital custody hashes** and **RFC 3161 timestamps** (ISO/IEC 27037).
 * 🚨 **Vida Primero Protocol (UDEX / Central 105 Flash Dispatch):** Instant acoustic and visual detection of explosive threats (dynamite, grenades) with a live police takeover bridge and biometric bypass to prioritize human life.
@@ -76,61 +93,73 @@ SARA acts as the cognitive intelligence and digital forensics copilot for police
 
 ## 🏗️ 3. How We Built It: Architecture & Multi-Agent Swarm
 
-SARA is engineered using an enterprise-grade **Parallel Multi-Agent Swarm Architecture** powered by the **Google Agent Development Kit (ADK)**, the **Google GenAI Python SDK**, and **Gemini 2.5 & 3.7**:
+SARA is engineered using an enterprise-grade **Hierarchical & Parallel 17-Multi-Agent Swarm Architecture** powered by the **Google Agent Development Kit (ADK)**, the **Google GenAI Python SDK**, and **Gemini 3.7 Flash & Pro Reasoning**:
 
 ```
-                              [ Citizen Ingress ]
-                                      │
-                         ┌────────────┴────────────┐
-                         ▼                         ▼
-                  [ Voice Call ]            [ Web Portal ]
-                  (Gemini 2.5)              (Gemini 3.7)
-                         │                         │
-                         └────────────┬────────────┘
-                                      ▼
-                             [ Purificador Agent ]
-                               (Zero-PII Filter)
-                                      │
-                   ┌──────────────────┼──────────────────┐
-                   ▼                  ▼                  ▼
-          [ Analista Agent ]   [ Calculo Agent ]   [ Asesor Juridico ]
-          (Entity Extraction)   (AHP Risk Matrix)  (3h IMEI / 24h UIF)
-                   │                  │                  │
-                   └──────────────────┼──────────────────┘
-                                      ▼
-                            [ Supervisor Agent ]
-                            (HITL Police Gate)
+                              [ Citizen Ingress (7 Languages) ]
+                                              │
+                         ┌────────────────────┴────────────────────┐
+                         ▼                                         ▼
+                  [ Voice Call ]                            [ Web Portal ]
+                  (Gemini Flash)                            (Gemini 3.7)
+                         │                                         │
+                         └────────────────────┬────────────────────┘
+                                              ▼
+                                     [ Purificador Agent ]
+                                     (Zero-PII Secure Vault)
+                                              │
+        ┌──────────────────┬──────────────────┼──────────────────┬──────────────────┐
+        ▼                  ▼                  ▼                  ▼                  ▼
+ [ Amparo Agent ]   [ Traductor Originario ]   [ Analista Agent ] [ Forense Extractor ] [ Calculo IRCE ]
+ (Contención 111)   (Linguística Nativa)(Pistas PIDE/SMS)  (OCR, ELA & TSA)    (AHP Risk Matrix)
+        │                  │                  │                  │                  │
+        └──────────────────┴──────────────────┼──────────────────┴──────────────────┘
+                                              ▼
+                                 [ Supervisor MLOps Agent ]
+                                 (ISO 42001 & HITL Police Gate)
+                                              │
+                         ┌────────────────────┴────────────────────┐
+                         ▼                                         ▼
+           [ RENIEC Biometrics Gate ]                [ ReNITLI MINCUL Agent ]
+           (ID Entifica 3: CPR ➔ CUP)                (Official Native Peritaje)
+                         │                                         │
+                         └────────────────────┬────────────────────┘
+                                              ▼
+                                   [ Empaquetador Agent ]
+                                   (SIDPOL & FECOR Dossier)
+                                              │
+                         ┌────────────────────┴────────────────────┐
+                         ▼                                         ▼
+           [ AI Threat Intel Agent ]                 [ Comité de Riesgos CCGER-IA ]
+           (ICE-IA: 99.58% / MITRE / OWASP)          (ROF-CCGER-IA Res. 001-2026)
 ```
 
-### 1. Cognitive Dual-Brain Routing (`agents/router.py`)
-Instead of a monolithic prompt, SARA dynamically dispatches tasks across specialized model tiers:
-* **Tier FLASH_FAST (`gemini-2.5-flash` / `gemini-3.7-flash`):** Allocated for real-time acoustic Voice Activity Detection (VAD), anti-spam spoof filtering (<300ms), and empathetic citizen containment in **Quechua, Shipibo, Aimara, and Spanish** (`temperature=0.3`, `thinking_budget=0`).
-* **Tier PRO_REASONING (`gemini-3.7-pro`):** Allocated for criminal intelligence profiling, **Multimodal Vision OCR** of handwritten letters and ammunition, and statutory compliance certification against the Official Gazette (*El Peruano* & *GOB.PE*). Configured with `temperature=0.1` and an active **Thinking Budget of 2048 tokens** to guarantee chain-of-thought deduction with zero hallucinations.
+### 🤖 The 17 Specialized Autonomous Agents:
+1. 🛡️ **Agente Centinela:** Acoustic spoofing and anti-spam triage (<300ms, D.S. 020-2020-MTC).
+2. 🔒 **Agente Purificador:** Cognitive immunity, prompt injection neutralizing, and Zero-PII canary tokens.
+3. 🗣️ **Agente Amparo (A.M.P.A.R.O.):** Asistente de Mediación, Protección, Auxilio y Respuesta Oportuna (Línea de Emergencia 111).
+4. 🔤 **Agente Traductor Originario (Traductor Forense Originario):** Native morphological disentanglement and forensic taxonomy across **Quechua, Aimara, Asháninka, Awajún, and Shipibo-Konibo** (Law No. 29735 & Art. 220 CPP).
+5. 🔬 **Agente Forense Extractor:** Multimodal Vision OCR CoT, Error Level Analysis (ELA), and RFC 3161 TSA notarial timestamps.
+6. ✍️ **Agente Perito Grafotécnico:** Documentoscopy, ink-pressure analysis, and graphonomic hashing.
+7. 🔗 **Agente Correlacionador Forense:** Evidence cross-matching and Probabilistic Evidence Coherence Index ($ICP$).
+8. 🕵️‍♂️ **Agente Analista:** Criminal profiling, modus operandi taxonomy, and financial entity extraction.
+9. 🏛️ **Agente PIDE:** Autonomous state interoperability with RENIEC, OSIPTEL-RENTESEG, and INPE.
+10. 📊 **Agente Cálculo IRCE:** Deterministic AHP-Saaty mathematical risk modeling ($T_{index} = 0.70 D_{certeza} + 0.30 D_{inminencia}$).
+11. 📦 **Agente Empaquetador:** Structuring ISO 19005-1 PDF/A-1b dossiers and SIDPOL police reports.
+12. ⚖️ **Agente Asesor Jurídico:** 100% legal compliance audit against Criminal Code Arts. 200/200-A, D.Leg. 1735, RCG N.° 1081-2025-CG-PNP (Guía PNP de Reserva de Identidad), RM N.° 009-2025-IN, Resolución N.° 098-2026-MP-FN (Lineamientos Fiscales de Código Reservado FECOR), and ENIA R.M. 152-2026-PCM.
+13. 👁️ **Agente Vigía Normativo:** Regulatory watchdog and tri-partite HITL legal governance (El Peruano, GOB.PE & SPIJ) with continuous legal verification across MININTER, PNP, and Public Ministry.
+14. 📡 **Agente Radar Criminológico:** OSINT threat intelligence cross-referenced against national media and Kaspersky Threat Intel.
+15. 🏛️ **Agente ReNITLI:** Official forensic translation alerts and digital signature tokens for the Ministry of Culture (Art. 220 CPP).
+16. 🛡️ **Supervisor IA (Auditor Forense Zero-PII):** Real-time payload interception ensuring 0% data leakage under ISO/IEC 42001 and ISO/IEC 27037.
+17. 🌐 **AI Threat Intel Agent (AI Incident Radar):** Continuous monitoring of global AI incident repositories (AI Incident Database, MITRE ATLAS, OWASP GenAI Top 10) computing SARA's Index of Coverage and Exposure (**ICE-IA: 99.58%**) under the **ROF-CCGER-IA**.
 
-### 2. Parallel Swarm Orchestration (`core/orchestrator.py`)
-SARA implements the **ParallelAgent Pattern** using a multi-threaded execution pool (`ThreadPoolExecutor`), executing 4 cognitive branches simultaneously in under 1.8 seconds:
-* **Branch 0 (Kallpa):** De-escalation, emotional containment, and dialect adaptation.
-* **Branch 1 (Technical Analyst & PIDE Agent):** Intergovernmental cross-referencing across RENIEC, OSIPTEL-RENTESEG, and INPE.
-* **Branch 2 (Threat Calculator):** Deterministic mathematical computation of the Extortion Risk and Complexity Indicator (**IRCE under AHP-Saaty: 70% Certainty / 30% Imminence**).
-* **Branch 3 (Packager & Legal Advisor):** Structuring the formal police dossier under Articles 200 & 200-A of the Criminal Code.
+### 🏛️ Two-Stage Verification Workflow (CPR ➔ CUP & ReNITLI Dispatch)
+* **Stage 1 (Intake & Pre-Registration):** The citizen files their complaint and immediately receives a **Pre-Registration Code (CPR)** on Telegram with a secure biometric link.
+* **Stage 2 (RENIEC Biometric Facial Verification & CUP Activation):** Once facial liveness is certified (>99.4% match), the **CUP (Unique Protection Code)** is activated and SARA fires the **ReNITLI Forensic Alert** to the official translator at the Ministry of Culture with a digital signature token and SHA-256 audio hash (Zero-Data-Leakage over messaging channels).
 
-### 3. Sovereign Zero-PII Vault (`core/secure_vault.py`)
-Victim identity (Name, National ID, Phone, Address) is immediately isolated upon ingestion. A cryptographically derived **Unique Protection Code (CUP)** is generated using **HMAC-SHA256 with CSPRNG salt**. All downstream LLMs and logs process strictly the CUP code.
-
-### 4. Real-Time MLOps Supervisor & Resilient Circuit Breaker
-* **Supervisor IA (`core/supervisor.py`):** Inspects every inter-agent payload in real-time, executing regex sanitization to block any accidental PII exposure under **ISO/IEC 42001 (AIMS)**.
-* **Autonomous Circuit Breaker:** If Gemini API rate limits (`429`) or service spikes (`503`) occur, SARA automatically switches within `<5ms` to local deterministic heuristics, guaranteeing 100% operational uptime during life-threatening emergencies.
-
-### 5. Google Cloud Infrastructure & Tooling
-* **Google Cloud Run:** Serverless containerized execution in `us-central1` with auto-scaling to zero ($0 idle cost) and high-concurrency throughput.
-* **Google Cloud Secret Manager:** Secure programmatic retrieval of API keys and cryptographic secrets.
-* **Google Cloud KMS:** Hardware Security Module (**HSM FIPS 140-3 Level 3**) for master key management and Envelope Encryption.
-* **Google BigQuery GIS:** Geospatial vector clustering and territorial heatmapping across Peru's 25 regional departments.
-* **Streamlit Web Console:** Mission-control dashboard offering a Citizen Portal, Human-in-the-Loop Police Command, Fiscal Inbox, and MLOps telemetry.
-
-### 6. Architectural Design & AI Pair-Programming with Google Antigravity
-The system architecture, domain modeling, statutory legal mapping (Legislative Decrees No. 1735 & 1731), cryptographic Zero-PII pipelines, and multi-agent coordination were **100% conceptualized and designed by Carlos Eduardo Baños Diaz**. 
-The implementation, boilerplate refactoring, and automated test suite generation were accelerated through agentic pair-programming using **Google Antigravity IDE (Google's Agentic AI Coding Assistant)**, demonstrating how modern AI engineering tools turn complex civic-tech architectures into robust, production-ready code in record time.
+### 🌐 Asymmetric Multilingual Inclusivity
+* **Citizen-Facing (Módulo 1 & Mobile Notifications):** 100% in the victim's native language (*Awajún, Quechua, Aimara, Asháninka, Shipibo-Konibo, Spanish, English*).
+* **Police & Judicial Consoles (Módulos 3 to 9):** Standard institutional Spanish with instant tactical AI translations and official ReNITLI forensic certifications, empowering any officer to act immediately without language barriers.
 
 ---
 
@@ -188,7 +217,7 @@ flowchart TB
         ORCH["🧠 SARA Sovereign Orchestrator<br/>(Google Agent Development Kit)"]
         
         subgraph AGENT_SWARM ["🤖 HIERARCHICAL-PARALLEL MULTI-AGENT SWARM"]
-            KALLPA["🗣️ Kallpa Agent<br/>(Containment & Multilingual Triaje)"]
+            AMPARO["🗣️ Amparo IA Agent<br/>(Containment & Multilingual Triaje)"]
             PURIF["🛡️ Purificador Agent<br/>(Zero-PII & Canary Token)"]
             CENT["🚫 Centinela Agent<br/>(Anti-Spam MTC D.S. 020-2020)"]
             ANALIST["📊 Analista Agent<br/>(Modus Operandi & Entities)"]
@@ -205,7 +234,7 @@ flowchart TB
     end
 
     subgraph GCP_SERVICES ["⚡ GOOGLE CLOUD PLATFORM ENTERPRISE SERVICES"]
-        VERTEX["🧠 Google Vertex AI / GenAI SDK<br/>• Gemini 2.5 Flash (Voice & Live Chat)<br/>• Gemini 3.7 Pro Reasoning (Thinking 2048)"]
+        VERTEX["🧠 Google Vertex AI / GenAI SDK<br/>• Gemini 3.5 Flash (Voice & Live Chat)<br/>• Gemini 3.5 Pro Reasoning (Thinking 2048)<br/>• Gemini 3.7 Flash (Vapi Hotline 111)"]
         KMS["🔐 Cloud KMS (HSM FIPS 140-3 Level 3)<br/>Envelope Encryption (DEK / KEK)"]
         SECRETS["🗝️ Secret Manager<br/>(API Keys & Webhook Tokens)"]
         BIGQUERY["🗺️ BigQuery GIS<br/>(Geospatial Extortion Heatmaps)"]

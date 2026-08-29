@@ -50,7 +50,7 @@ class AnalistaAgent:
         self.nombre = "Agente Analista (Perfilamiento Criminal)"
         self.sigla = "ANALISTA"
         self.api_key = os.getenv("GEMINI_API_KEY")
-        self.model_name = os.getenv("GEMINI_PRO_MODEL", "gemini-2.5-flash")
+        self.model_name = os.getenv("GEMINI_PRO_MODEL", "gemini-3.5-flash")
         # Instanciamos al subagente forense como dependencia directa con API Key
         self.forense_extractor = SubAgenteForenseExtractor(api_key=self.api_key)
 
@@ -98,7 +98,6 @@ class AnalistaAgent:
         pistas_base = pistas_infractor or {}
         tels_consolidados = list(dict.fromkeys((pistas_base.get("telefonos_sospechosos") or []) + tels_forenses + ([origen_contacto] if origen_contacto and origen_contacto != "Desconocido" else [])))
         cuentas_consolidadas = list(dict.fromkeys((pistas_base.get("cuentas_bancarias_mencionadas") or []) + cuentas_forenses))
-
         pistas_consolidadas = {
             "telefonos_sospechosos": tels_consolidados,
             "cuentas_bancarias_mencionadas": cuentas_consolidadas,
@@ -106,50 +105,20 @@ class AnalistaAgent:
         }
         
         texto_analisis = contexto_amenaza or f"Canal: {canal}. Evidencia procesada."
-
         logger.info(f"🔍 [Analista] Analizando datos técnicos del infractor para caso {cup}...")
 
-        api_key = (self.api_key or os.getenv("GEMINI_API_KEY", "")).strip()
-        from core.llm_circuit_breaker import is_llm_available, report_quota_exhausted
-        if is_llm_available() and api_key and len(api_key) > 20 and not api_key.startswith("your_"):
-            try:
-                from google import genai
-                client = genai.Client(api_key=api_key)
-                prompt = (
-                    f"Caso ID (CUP): {cup}\n"
-                    f"Resultado del Subagente Forense: {json.dumps(paquete_forense, ensure_ascii=False)}\n"
-                    f"Pistas del infractor extraídas: {json.dumps(pistas_consolidadas, ensure_ascii=False)}\n"
-                    f"Contexto de la amenaza: \"{texto_analisis}\"\n\n"
-                    f"Genera el análisis técnico del infractor bajo Zero-PII estricto, integrando el paquete forense."
-                )
-                response = client.models.generate_content(
-                    model=self.model_name,
-                    contents=prompt,
-                    config={
-                        "system_instruction": ANALISTA_SYSTEM_INSTRUCTION,
-                        "response_mime_type": "application/json",
-                    },
-                )
-                resultado_ia = json.loads(response.text)
-                resultado_ia["paquete_forense_adjunto"] = paquete_forense
-                
-                # Integrar cruce PIDE autónomo si se detectaron artefactos
-                try:
-                    from agents.pide_agent import pide_agent
-                    resultado_ia["perfil_inteligencia_pide"] = pide_agent.investigar_infractor_pide(
-                        cup=cup,
-                        telefonos_infractor=tels_consolidados,
-                        cuentas_infractor=cuentas_consolidadas
-                    )
-                except Exception:
-                    pass
-
-                return resultado_ia
-            except Exception as e:
-                report_quota_exhausted(str(e))
-                logger.error(f"Error en Analista ({e}). Usando análisis técnico heurístico.")
-
-        return self._heuristic_analysis(cup, pistas_consolidadas, texto_analisis, paquete_forense)
+        # Fast-Path Determinista de Alta Velocidad e Inteligencia Forense Consolidada
+        res_heur = self._heuristic_analysis(cup, pistas_consolidadas, texto_analisis, paquete_forense)
+        try:
+            from agents.pide_agent import pide_agent
+            res_heur["perfil_inteligencia_pide"] = pide_agent.investigar_infractor_pide(
+                cup=cup,
+                telefonos_infractor=tels_consolidados,
+                cuentas_infractor=cuentas_consolidadas
+            )
+        except Exception:
+            pass
+        return res_heur
 
     def _heuristic_analysis(self, cup: str, pistas: Dict[str, Any], contexto: str, paquete_forense: Dict[str, Any]) -> Dict[str, Any]:
         """Análisis técnico determinista integrando la salida del subagente."""

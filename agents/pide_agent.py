@@ -114,4 +114,5 @@ class PIDEInteroperabilityAgent:
         return perfil_inteligencia
 
 
+PIDEAgent = PIDEInteroperabilityAgent
 pide_agent = PIDEInteroperabilityAgent()

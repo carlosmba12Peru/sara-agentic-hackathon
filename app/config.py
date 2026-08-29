@@ -57,6 +57,7 @@ class Settings(BaseSettings):
     MAKE_WEBHOOK_VALIDACION_URL: Optional[str] = os.getenv("MAKE_WEBHOOK_VALIDACION_URL")
     VAPI_PUBLIC_KEY: Optional[str] = os.getenv("VAPI_PUBLIC_KEY")
     VAPI_ASSISTANT_ID: Optional[str] = os.getenv("VAPI_ASSISTANT_ID")
+    DEMO_NOTIFICATION_TARGET: Optional[str] = os.getenv("DEMO_NOTIFICATION_TARGET")
 
     # T_index Risk Weights (Configurable per jurisdiction)
     WEIGHT_COERCION: float = 0.35

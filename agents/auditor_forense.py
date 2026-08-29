@@ -31,7 +31,7 @@ class AuditorForenseAgent:
         self.nombre = "Agente Auditor y Validador Forense de Calidad (Dual-AI Quality Control)"
         self.sigla = "AUDITOR_FORENSE_QC"
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
-        self.model_name = model_name
+        self.model_name = os.getenv("GEMINI_FLASH_MODEL", model_name)
 
     def auditar_extraccion_pericial(
         self,
@@ -109,13 +109,16 @@ class AuditorForenseAgent:
                     "}"
                 )
 
-                res_aud = client.models.generate_content(
-                    model=self.model_name or "gemini-3.6-flash",
+                from core.llm_circuit_breaker import call_with_fast_timeout
+                res_aud = call_with_fast_timeout(
+                    client.models.generate_content,
+                    model=self.model_name or "gemini-3.5-flash",
                     contents=[part_media, prompt_auditoria],
-                    config={"response_mime_type": "application/json", "temperature": 0.05}
+                    config={"response_mime_type": "application/json", "temperature": 0.05},
+                    timeout_seconds=1.5
                 )
 
-                if res_aud and res_aud.text:
+                if res_aud and getattr(res_aud, "text", None):
                     raw_txt = res_aud.text.strip()
                     if raw_txt.startswith("```json"):
                         raw_txt = raw_txt[7:]

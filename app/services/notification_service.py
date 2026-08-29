@@ -217,6 +217,8 @@ class NotificationService:
         )
 
         canal_clean = (canal or "WHATSAPP").upper().strip()
+        tel_demo_target = os.getenv("DEMO_NOTIFICATION_TARGET") or getattr(settings, "DEMO_NOTIFICATION_TARGET", None)
+        tel_real_envio = (tel_demo_target or telefono_destino or "+51984112233").strip()
         tel_clean = (telefono_destino or "+51984112233").strip()
         tel_mask = tel_clean[:6] + "****" + tel_clean[-2:] if len(tel_clean) >= 8 else tel_clean
 
@@ -227,7 +229,8 @@ class NotificationService:
             "cup": cup,
             "canal_utilizado": canal_clean,
             "destinatario_enmascarado": tel_mask,
-            "telefono_destino": tel_clean,
+            "telefono_destino": tel_real_envio,
+            "telefono_visible": tel_clean,
             "carpeta_fiscal_notificada": carpeta_fiscal,
             "cuc_fiscal_notificado": cuc,
             "codigo_sidpol_notificado": codigo_sidpol,
@@ -253,27 +256,17 @@ class NotificationService:
                     "cuc": cuc,
                     "fiscalia_asignada": fiscalia_asignada,
                     "fiscal_responsable": fiscal_responsable or "Fiscal Especializado FECOR",
-                    "telefono_denunciante": tel_clean,
+                    "telefono_denunciante": tel_real_envio,
+                    "telefono_visible": tel_clean,
                     "destinatario_enmascarado": tel_mask,
                     "cuerpo_mensaje": mensaje_texto,
                     "enlace_validacion": enlace_validacion,
                     "canal": canal_clean,
                     "idioma": idioma,
                     "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-                    "mensaje_telegram_formateado": (
-                        f"🛡️ *SARA - Remisión de Caso al Ministerio Público*\n\n"
-                        f"Estimado/a ciudadano/a, su denuncia ha sido procesada formalmente y transferida a la Fiscalía Especializada:\n\n"
-                        f"📁 *Carpeta Fiscal N.°:* `{carpeta_fiscal}`\n"
-                        f"🔖 *Código Único de Caso (CUC):* `{cuc}`\n"
-                        f"📋 *Registro Policial (SIDPOL):* `{codigo_sidpol}`\n"
-                        f"🏛️ *Fiscalía Asignada:* {fiscalia_asignada}\n"
-                        f"🔑 *Código Reservado (CUP):* `{cup}`\n\n"
-                        f"Para consultar el estado y sus medidas de protección, ingrese aquí:\n"
-                        f"🔗 {enlace_validacion}\n\n"
-                        f"🔒 *Su identidad permanece bajo reserva y protección absoluta (Res. N.° 098-2026-MP-FN).* La Policía y Fiscalía se encuentran a cargo de su seguridad."
-                    )
+                    "mensaje_telegram_formateado": mensaje_texto
                 }
-                async with httpx.AsyncClient(timeout=8.0) as client:
+                async with httpx.AsyncClient(timeout=2.0) as client:
                     resp_make = await client.post(make_webhook_url, json=make_payload)
                     if resp_make.status_code in (200, 201, 204):
                         resultado["make_webhook_dispatched"] = True
@@ -295,7 +288,7 @@ class NotificationService:
                     "text": make_payload["mensaje_telegram_formateado"],
                     "parse_mode": "Markdown"
                 }
-                async with httpx.AsyncClient(timeout=8.0) as client:
+                async with httpx.AsyncClient(timeout=1.5) as client:
                     resp_tg = await client.post(url_tg, json=tg_payload)
                     if resp_tg.status_code == 200:
                         resultado["telegram_direct_dispatched"] = True
@@ -509,6 +502,8 @@ class NotificationService:
         import os
         from datetime import datetime, timezone
 
+        tel_demo_target = os.getenv("DEMO_NOTIFICATION_TARGET") or getattr(settings, "DEMO_NOTIFICATION_TARGET", None)
+        tel_real_envio = (tel_demo_target or telefono_destino or "+51984112233").strip()
         tel_clean = (telefono_destino or "+51984112233").strip()
         tel_mask = tel_clean[:6] + "****" + tel_clean[-2:] if len(tel_clean) >= 8 else tel_clean
         cpr_code = cpr or (cup if str(cup).startswith("CPR-") else f"CPR-2026-{str(cup)[-6:]}")
@@ -527,7 +522,8 @@ class NotificationService:
             "cup": cup,
             "canal_utilizado": canal.upper(),
             "idioma": idioma,
-            "telefono_destino": tel_clean,
+            "telefono_destino": tel_real_envio,
+            "telefono_visible": tel_clean,
             "destinatario_enmascarado": tel_mask,
             "url_validacion": url_val,
             "cuerpo_mensaje": cuerpo_mensaje,
@@ -552,7 +548,8 @@ class NotificationService:
                     "evento": "SOLICITUD_VALIDACION_BIOMETRICA",
                     "cpr": cpr_code,
                     "cup": cup,
-                    "telefono_denunciante": tel_clean,
+                    "telefono_denunciante": tel_real_envio,
+                    "telefono_visible": tel_clean,
                     "destinatario_enmascarado": tel_mask,
                     "url_validacion": url_val,
                     "cuerpo_mensaje": cuerpo_mensaje,
@@ -561,7 +558,7 @@ class NotificationService:
                     "idioma": idioma,
                     "timestamp_utc": datetime.now(timezone.utc).isoformat()
                 }
-                async with httpx.AsyncClient(timeout=8.0) as client:
+                async with httpx.AsyncClient(timeout=2.0) as client:
                     resp = await client.post(make_webhook_url, json=make_payload)
                     if resp.status_code in (200, 201, 204):
                         resultado["make_webhook_dispatched"] = True
@@ -572,10 +569,10 @@ class NotificationService:
             except Exception as e:
                 logger.error(f"Error al enviar Webhook 1 a Make.com: {e}")
 
-        # Intento de envío directo a Telegram Bot
+        # Intento de envío directo a Telegram Bot (Solo como canal de contingencia si Make no fue despachado)
         tg_bot_token = settings.TELEGRAM_BOT_TOKEN or os.getenv("TELEGRAM_BOT_TOKEN")
         tg_chat_id = settings.TELEGRAM_CHAT_ID or os.getenv("TELEGRAM_CHAT_ID")
-        if tg_bot_token and tg_chat_id and httpx:
+        if tg_bot_token and tg_chat_id and httpx and not resultado.get("make_webhook_dispatched"):
             try:
                 url_tg = f"https://api.telegram.org/bot{tg_bot_token.strip()}/sendMessage"
                 tg_payload = {
@@ -583,7 +580,7 @@ class NotificationService:
                     "text": mensaje_telegram,
                     "parse_mode": "Markdown"
                 }
-                async with httpx.AsyncClient(timeout=8.0) as client:
+                async with httpx.AsyncClient(timeout=2.0) as client:
                     resp_tg = await client.post(url_tg, json=tg_payload)
                     if resp_tg.status_code == 200:
                         resultado["telegram_direct_dispatched"] = True
@@ -631,12 +628,8 @@ class NotificationService:
             f"🗣️ *Lengua Materna / Variante:* *{lengua}* ({variante})\n"
             f"🔑 *Código de Caso (CUP):* `{cup}`\n"
             f"🔖 *Ticket ReNITLI:* `{ticket_id}`\n\n"
-            f"📝 *Manifestación Original del Ciudadano ({lengua}):*\n"
-            f"> \"{orig_text}\"\n\n"
-            f"✨ *Traducción Táctica Preliminar (Kallpa IA / Gemini 3.7):*\n"
-            f"> \"{trad_ia}\"\n\n"
             "📋 *Acción Requerida:*\n"
-            "Por favor ingrese a la Consola de Convalidación Oficial para revisar, cotejar y firmar digitalmente la traducción jurada con Fe Pública para la Fiscalía Especializada (FECOR):\n\n"
+            "Se ha recepcionado una denuncia de emergencia en lengua originaria. Por estricta reserva de seguridad (Zero-PII) y cadena de custodia probatoria, ingrese a la Consola de Convalidación Oficial para escuchar la pista acústica original, auditar la traducción preliminar de IA y firmar digitalmente la traducción jurada con Fe Pública para la Fiscalía Especializada (FECOR):\n\n"
             f"🔗 *Enlace de Convalidación Pericial:*\n"
             f"{url_consola}\n\n"
             f"🔐 *Token de Firma Digital ReNITLI:* `{token_acceso}`\n\n"
@@ -686,7 +679,7 @@ class NotificationService:
                     "canal": "TELEGRAM",
                     "timestamp_utc": datetime.now(timezone.utc).isoformat()
                 }
-                async with httpx.AsyncClient(timeout=8.0) as client:
+                async with httpx.AsyncClient(timeout=2.0) as client:
                     resp = await client.post(make_webhook_url, json=make_payload)
                     if resp.status_code in (200, 201, 204):
                         resultado["make_webhook_dispatched"] = True
@@ -695,7 +688,7 @@ class NotificationService:
             except Exception as e:
                 logger.error(f"Error al enviar Webhook ReNITLI a Make.com: {e}")
 
-        # Intentar despacho directo por Telegram Bot
+        # 2. Despacho directo por Telegram Bot API (Garantía de entrega inmediata al perito en Telegram)
         tg_bot_token = settings.TELEGRAM_BOT_TOKEN or os.getenv("TELEGRAM_BOT_TOKEN")
         tg_chat_id = settings.TELEGRAM_CHAT_ID or os.getenv("TELEGRAM_CHAT_ID")
         if tg_bot_token and tg_chat_id and httpx:
@@ -706,11 +699,13 @@ class NotificationService:
                     "text": mensaje_telegram,
                     "parse_mode": "Markdown"
                 }
-                async with httpx.AsyncClient(timeout=8.0) as client:
+                async with httpx.AsyncClient(timeout=2.0) as client:
                     resp_tg = await client.post(url_tg, json=tg_payload)
                     if resp_tg.status_code == 200:
                         resultado["telegram_direct_dispatched"] = True
                         logger.info(f"📱 Mensaje directo de Telegram enviado al traductor ReNITLI para caso {cup}.")
+                    else:
+                        logger.warning(f"Respuesta no 200 de Telegram API ReNITLI: {resp_tg.status_code} - {resp_tg.text}")
             except Exception as e:
                 logger.error(f"Error al enviar directo por Telegram API a ReNITLI: {e}")
 

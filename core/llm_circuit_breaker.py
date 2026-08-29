@@ -11,7 +11,7 @@ logger = logging.getLogger("sara.core.circuit_breaker")
 # Estado global del interruptor de cuota
 _QUOTA_EXHAUSTED = False
 _LAST_CHECK_TIME = 0.0
-_COOLDOWN_SECONDS = 25.0  # 25 segundos de descanso antes de reintentar si se agotó cuota
+_COOLDOWN_SECONDS = 5.0  # 5 segundos de cooldown rápido
 
 
 def is_llm_available() -> bool:
@@ -31,14 +31,38 @@ def report_quota_exhausted(error_msg: str = ""):
     err_low = str(error_msg).lower()
     trigger_words = [
         "429", "quota", "resource_exhausted", "rate limit", "exceeded",
-        "404", "not_found", "not found",
+        "404", "not_found", "not found", "10054", "forcibly closed",
+        "closed by the remote host", "connection reset", "winerror",
         "aborted", "timeout", "timed out", "connection error", "503", 
-        "500", "unavailable", "wsarecv", "connection reset", "broken pipe"
+        "500", "unavailable", "wsarecv", "wsasend", "broken pipe"
     ]
     if any(k in err_low for k in trigger_words):
         _QUOTA_EXHAUSTED = True
         _LAST_CHECK_TIME = time.time()
         logger.warning(f"⚡ [Circuit Breaker] Canal remoto inaccesible o agotado ({error_msg[:100]}...). Activando inferencia local determinista de alta velocidad.")
+
+
+import concurrent.futures
+
+_GLOBAL_LLM_EXECUTOR = concurrent.futures.ThreadPoolExecutor(max_workers=16, thread_name_prefix="sara_llm_pool")
+
+
+def call_with_fast_timeout(fn, *args, timeout_seconds: float = 2.0, fallback=None, **kwargs):
+    """Ejecuta una llamada LLM con límite estricto de tiempo (máx 2.0s) de forma 100% no bloqueante."""
+    if not is_llm_available():
+        return fallback() if callable(fallback) else fallback
+    
+    try:
+        future = _GLOBAL_LLM_EXECUTOR.submit(fn, *args, **kwargs)
+        return future.result(timeout=timeout_seconds)
+    except concurrent.futures.TimeoutError:
+        report_quota_exhausted(f"Timeout estricto superado (>{timeout_seconds}s)")
+        logger.warning(f"⚡ [Circuit Breaker] Timeout estricto de {timeout_seconds}s alcanzado. Conmutando de inmediato a motor local determinista.")
+        return fallback() if callable(fallback) else fallback
+    except Exception as e:
+        report_quota_exhausted(str(e))
+        logger.warning(f"⚡ [Circuit Breaker] Error en llamada LLM ({e}). Conmutando a motor local.")
+        return fallback() if callable(fallback) else fallback
 
 
 def reset_circuit_breaker():

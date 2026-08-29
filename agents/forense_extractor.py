@@ -56,7 +56,7 @@ class SubAgenteForenseExtractor:
     y la cadena de custodia del Código Procesal Penal (Art. 220 CPP).
     """
 
-    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-2.5-flash") -> None:
+    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-3.5-flash") -> None:
         self.nombre = "Agente Forense Extractor (Peritaje Multimedia & TSA)"
         self.sigla = "FORENSE_EXTRACTOR"
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
@@ -669,34 +669,24 @@ class SubAgenteForenseExtractor:
                     "}"
                 )
 
-                # Cascada inteligente de modelos oficiales existentes
-                modelos_a_probar = [
-                    os.getenv("GEMINI_FLASH_MODEL", "gemini-2.5-flash"),
-                    "gemini-2.5-flash",
-                    "gemini-flash-latest",
-                    "gemini-2.5-flash-lite",
-                    "gemini-3-flash-preview",
-                    "gemini-1.5-flash"
-                ]
+                # Selección de modelo rápido de visión multimodal
+                modelos_unicos = [os.getenv("GEMINI_FLASH_MODEL", "gemini-3.5-flash")]
 
-                # Deduplicar preservando orden
-                modelos_unicos = []
-                for m in modelos_a_probar:
-                    if m and m not in modelos_unicos:
-                        modelos_unicos.append(m)
-
+                from core.llm_circuit_breaker import call_with_fast_timeout
                 for modelo_curr in modelos_unicos:
                     try:
-                        res_vision = client.models.generate_content(
+                        res_vision = call_with_fast_timeout(
+                            client.models.generate_content,
                             model=modelo_curr,
                             contents=[part_media, prompt_forense],
                             config={
                                 "response_mime_type": "application/json",
                                 "temperature": 0.1
-                            }
+                            },
+                            timeout_seconds=2.0
                         )
 
-                        if res_vision and res_vision.text:
+                        if res_vision and getattr(res_vision, "text", None):
                             raw_t = res_vision.text.strip()
                             if raw_t.startswith("```json"):
                                 raw_t = raw_t[7:]
@@ -1469,8 +1459,13 @@ class SubAgenteForenseExtractor:
         return json.dumps(paquete_probatorio, indent=4, ensure_ascii=False)
 
 
+
+# Instancia singleton oficial
+forense_extractor_agent = SubAgenteForenseExtractor()
+
+
 if __name__ == "__main__":
-    extractor = SubAgenteForenseExtractor()
+    extractor = forense_extractor_agent
     json_resultado = extractor.procesar_evidencia(
         cup="CUP-INJERTOS-001",
         tipo_evidencia="Fotografía de Carta Extorsiva",

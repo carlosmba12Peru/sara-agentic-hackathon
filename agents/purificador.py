@@ -46,7 +46,7 @@ class PurificadorAgent:
         self.nombre = "Agente Purificador (Inmunidad Cognitiva & Zero-PII)"
         self.sigla = "PURIFICADOR"
         self.api_key = os.getenv("GEMINI_API_KEY")
-        self.model_name = os.getenv("GEMINI_FLASH_MODEL", "gemini-3.7-flash")
+        self.model_name = os.getenv("GEMINI_FLASH_MODEL", "gemini-3.5-flash")
         
         # Patrones regex de ataque conocidos (Defense-in-depth determinista)
         self.adversarial_patterns = [
@@ -81,7 +81,7 @@ class PurificadorAgent:
 
         # Fast-Path Determinista ultrarrápido (<0.5ms): Si el texto no contiene patrones sospechosos ni inyecciones
         heuristic_res = self._heuristic_sanitization(raw_text, canary)
-        if not heuristic_res.get("vectores_detectados"):
+        if heuristic_res.get("clasificacion_seguridad") == "LIMPIO" or heuristic_res.get("vectores_detectados") in ([], ["NINGUNO"]):
             # Texto completamente limpio de inyecciones y comandos, retorno instantáneo
             return heuristic_res
 
@@ -98,17 +98,21 @@ class PurificadorAgent:
                     f"CANARY TOKEN DEL SISTEMA: {canary}\n\n"
                     f"Aplica las reglas de inmunidad cognitiva y genera el dictamen JSON:"
                 )
-                response = client.models.generate_content(
+                from core.llm_circuit_breaker import call_with_fast_timeout
+                response = call_with_fast_timeout(
+                    client.models.generate_content,
                     model=self.model_name,
                     contents=prompt,
                     config={
                         "system_instruction": PURIFICADOR_SYSTEM_INSTRUCTION,
                         "response_mime_type": "application/json",
                     },
+                    timeout_seconds=2.5
                 )
-                parsed = json.loads(response.text)
-                parsed["canary_token"] = canary
-                return parsed
+                if response and getattr(response, "text", None):
+                    parsed = json.loads(response.text)
+                    parsed["canary_token"] = canary
+                    return parsed
             except Exception as e:
                 report_quota_exhausted(str(e))
                 logger.error(f"Error en Purificador con Gemini ({e}). Aplicando sanitización heurística determinista.")

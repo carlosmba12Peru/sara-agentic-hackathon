@@ -169,3 +169,4 @@ class CorrelacionadorForenseAgent:
 
 # Instancia singleton para uso en el ecosistema SARA
 correlacionador_forense = CorrelacionadorForenseAgent()
+correlacionador_forense_agent = correlacionador_forense

@@ -23,7 +23,7 @@ Evalúa 4 factores críticos:
 4. Nivel de Veracidad Estimado (Score de 0 a 100):
    - 0-30: FALSA_ALARMA / BROMA (Aplicar D.S. 020-2020-MTC).
    - 31-69: DUDA_REQUERIR_DATOS (Requiere verificación forense adicional).
-   - 70-100: EMERGENCIA_GENUINA (Aprobada para triaje con Kallpa y despacho 105).
+   - 70-100: EMERGENCIA_GENUINA (Aprobada para triaje con Amparo IA y despacho 105).
 
 Salida en formato JSON estricto:
 {
@@ -54,7 +54,7 @@ class CentinelaAgent:
         self.nombre = "Agente Centinela (Filtro Anti-Falsas Alarmas)"
         self.sigla = "CENTINELA"
         self.api_key = os.getenv("GEMINI_API_KEY")
-        self.model_name = os.getenv("GEMINI_FLASH_MODEL", "gemini-3.7-flash")
+        self.model_name = os.getenv("GEMINI_FLASH_MODEL", "gemini-3.5-flash")
 
     def evaluate_veracity(self, telefono_origen: str, mensaje_texto: str, metadatos_audio: Dict[str, Any] = None) -> Dict[str, Any]:
         """Evalúa la veracidad de la alerta antes de comprometer recursos de la Policía Nacional."""
@@ -77,15 +77,19 @@ class CentinelaAgent:
                     f"Metadatos acústicos: {json.dumps(metadatos_audio or {})}\n\n"
                     f"Aplica las 4 capas de blindaje anti-falsas alarmas y emite el dictamen JSON."
                 )
-                response = client.models.generate_content(
+                from core.llm_circuit_breaker import call_with_fast_timeout
+                response = call_with_fast_timeout(
+                    client.models.generate_content,
                     model=self.model_name,
                     contents=prompt,
                     config={
                         "system_instruction": CENTINELA_SYSTEM_INSTRUCTION,
                         "response_mime_type": "application/json",
                     },
+                    timeout_seconds=2.5
                 )
-                return json.loads(response.text)
+                if response and getattr(response, "text", None):
+                    return json.loads(response.text)
             except Exception as e:
                 report_quota_exhausted(str(e))
                 logger.error(f"Error en Centinela con Gemini ({e}). Aplicando análisis heurístico determinista.")

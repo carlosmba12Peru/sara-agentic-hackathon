@@ -27,7 +27,7 @@ class PeritoGrafotecnicoAgent:
     sobre manuscritos coactivos y firmas de organizaciones criminales.
     """
 
-    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-3.7-flash") -> None:
+    def __init__(self, api_key: Optional[str] = None, model_name: str = "gemini-3.5-flash") -> None:
         self.nombre = "Agente Perito Grafotécnico (Documentoscopía & Manuscritos)"
         self.sigla = "PERITO_GRAFOTECNICO"
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
@@ -122,3 +122,4 @@ class PeritoGrafotecnicoAgent:
 
 # Instancia singleton para uso en el ecosistema SARA
 perito_grafotecnico = PeritoGrafotecnicoAgent()
+perito_grafotecnico_agent = perito_grafotecnico

@@ -1930,66 +1930,39 @@ if menu.startswith("📋 1."):
         st.markdown("""<div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.92)); border: 2px solid #38bdf8; border-radius: 16px; padding: 22px 26px; margin-bottom: 18px; box-shadow: 0 8px 32px rgba(56, 189, 248, 0.18);"><div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(148, 163, 184, 0.25); padding-bottom: 12px; margin-bottom: 14px;"><span style="font-weight: 900; color: #38bdf8; font-size: 1.22rem; letter-spacing: 0.3px;">🕊️ ESPACIO SEGURO DE ACOMPAÑAMIENTO Y DENUNCIA PROTEGIDA (SARA)</span><span class="badge-pill badge-zero-pii">🔒 Identidad 100% Protegida • Confidencial</span></div><div style="background: rgba(8, 51, 68, 0.35); border-left: 4px solid #38bdf8; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;"><div style="font-size: 1.05rem; font-weight: 700; color: #f8fafc; margin-bottom: 4px;">💙 Respira con calma. No estás solo/a, estás a salvo y te vamos a ayudar.</div><div style="font-size: 0.92rem; color: #cbd5e1; line-height: 1.5;">Sabemos el miedo, la angustia y la impotencia por la que estás pasando. En <strong>SARA</strong> cuentas con <strong>Amparo</strong>, tu asistente de inteligencia y contención humana (te atiende en <strong>Español</strong>, <strong>Quechua</strong>, <strong>Aimara</strong>, <strong>Asháninka</strong>, <strong>Awajún</strong>, <strong>Shipibo</strong> o <strong>Inglés</strong>). Te escucharemos con respeto, sin juzgarte y cuidando tu vida y la de tu familia en todo momento.</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 0.88rem;"><div class="agent-card agent-card-cyan" style="padding: 14px; margin-bottom: 0;"><strong style="color: #38bdf8; font-size: 0.95rem;">🗣️ 1. Desahógate y cuéntanos a tu propio ritmo:</strong><br/><span style="color: #cbd5e1; line-height: 1.45; display: inline-block; margin-top: 4px;">Escribe lo que ocurrió o <strong>háblanos con tu voz en vivo</strong>. Amparo te escuchará con paciencia, te dará palabras de aliento y te ayudará a ordenar tus ideas sin presionarte.</span></div><div class="agent-card agent-card-emerald" style="padding: 14px; margin-bottom: 0;"><strong style="color: #34d399; font-size: 0.95rem;">🛡️ 2. Tu identidad jamás será revelada (Cero Riesgo):</strong><br/><span style="color: #cbd5e1; line-height: 1.45; display: inline-block; margin-top: 4px;">Nadie conocerá tu nombre ni tu dirección. Se te asigna un <strong>Código de Protección Secreto (CUP)</strong> para que la Policía y Fiscalía persigan a los delincuentes sin exponerte.</span></div><div class="agent-card agent-card-amber" style="padding: 14px; margin-bottom: 0;"><strong style="color: #fcd34d; font-size: 0.95rem;">📸 3. Comparte lo que tengas a la mano:</strong><br/><span style="color: #cbd5e1; line-height: 1.45; display: inline-block; margin-top: 4px;">Si tienes mensajes, audios, fotos de cartas o números de cuenta, adjúntalos aquí. Nosotros nos encargamos de asegurarlos legalmente para que tengan valor de prueba ante el juez.</span></div><div class="agent-card agent-card-crimson" style="padding: 14px; margin-bottom: 0;"><strong style="color: #f87171; font-size: 0.95rem;">🤝 4. No pagues ni cedas al chantaje:</strong><br/><span style="color: #cbd5e1; line-height: 1.45; display: inline-block; margin-top: 4px;">Pagar no detiene la extorsión. Te daremos pautas de seguridad inmediatas mientras activamos el bloqueo de sus teléfonos y el congelamiento de sus cuentas bancarias.</span></div></div></div>""", unsafe_allow_html=True)
 
     # --------------------------------------------------------------------------
-    # 🛡️ PORTADA INICIAL: PANEL DE CONTROL SANDBOX Y CASOS MODELO SINTÉTICOS
+    # 🛡️ PORTADA INICIAL / BOTÓN PRINCIPAL DE APERTURA: INICIAR DENUNCIA CON SARA
     # --------------------------------------------------------------------------
     if "portal_denuncia_iniciado" not in st.session_state:
         st.session_state["portal_denuncia_iniciado"] = False
 
     if not st.session_state["portal_denuncia_iniciado"]:
-        # 🔒 BANNER DE PROTECCIÓN ÉTICA Y SANDBOX RESTRICTIVO (OPCIÓN B)
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 58, 138, 0.35) 50%, rgba(6, 78, 59, 0.3) 100%); border: 2px solid #38bdf8; border-radius: 16px; padding: 20px 24px; margin-bottom: 16px; box-shadow: 0 8px 30px rgba(56, 189, 248, 0.18);">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; border-bottom: 1px solid rgba(56, 189, 248, 0.25); padding-bottom: 10px; margin-bottom: 12px;">
-                <span style="font-weight: 900; color: #38bdf8; font-size: 1.15rem; letter-spacing: 0.3px;">🔒 MODO DE SIMULACIÓN SANDBOX (CASOS MODELO SINTÉTICOS)</span>
-                <span class="badge-pill badge-zero-pii">🛡️ Ley N° 29733 • Zero-PII Protegido</span>
-            </div>
-            <div style="font-size: 0.90rem; color: #f1f5f9; line-height: 1.5; margin-bottom: 10px;">
-                <b>Aviso Ético & Protección de la Ciudadanía:</b> Para evitar la exposición o captura inadvertida de datos personales reales en este entorno de evaluación técnica, la plataforma opera en <b>Modo Sandbox Restringido</b>.
-                Los evaluadores pueden seleccionar cualquiera de los <b>Casos Modelo Sintéticos</b> precargados abajo para auditar el flujo multi-agente completo (Forense Extractor, Analista, Asesor Jurídico, PIDE, Cálculos IRCE y Bóveda Segura) con 1 solo clic.
-            </div>
-            <div style="background: rgba(15, 23, 42, 0.7); border-left: 4px solid #10b981; border-radius: 8px; padding: 8px 14px; font-size: 0.82rem; color: #cbd5e1;">
-                💡 <em>Cada caso modelo incluye relatos verosímiles y 2 evidencias digitales con firma pericial Hash SHA-256 (Art. 220 CPP).</em>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        # Advertencia Oficial MTC - Enfoque Protector y Seguro
+        st.markdown("""<div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(59, 130, 246, 0.35); border-radius: 10px; padding: 10px 16px; margin-bottom: 8px;"><div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-size: 0.82rem; font-weight: 700; color: #60a5fa;">⚖️ Canal Protegido y Seguro de Auxilio Ciudadano (Ley N° 31814 / D.S. N° 020-2020-MTC)</span><span style="font-size: 0.72rem; color: #94a3b8;">Canal auditado para salvar vidas</span></div><div style="font-size: 0.78rem; color: #cbd5e1; margin-top: 3px; line-height: 1.35;">Este canal cuenta con custodia digital inmutable para garantizar que cada llamada de auxilio sea atendida con la máxima prioridad del Estado.</div></div>""", unsafe_allow_html=True)
 
-        st.markdown("### 🗂️ Selecciona un Caso Modelo para Iniciar la Simulación:")
-        
-        opciones_claves_casos = list(DICCIONARIO_CASOS_MODELO_SARA.keys())
-        titulos_casos = [DICCIONARIO_CASOS_MODELO_SARA[k]["titulo"] for k in opciones_claves_casos]
-        
-        caso_elegido_idx = st.selectbox(
-            "📋 Catálogo Oficial de Casos de Prueba (Nacional & Multilingüe):",
-            range(len(titulos_casos)),
-            format_func=lambda i: titulos_casos[i],
-            key="sb_selector_caso_modelo_portada"
-        )
-        
-        clave_caso_elegido = opciones_claves_casos[caso_elegido_idx]
-        caso_data = DICCIONARIO_CASOS_MODELO_SARA[clave_caso_elegido]
-        
-        # Tarjeta previa del caso seleccionado
-        with st.container():
-            st.markdown(f"""
-            <div style="background: rgba(30, 41, 59, 0.75); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 12px; padding: 14px 18px; margin: 10px 0 16px 0;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <span style="font-weight: 800; color: #38bdf8; font-size: 0.95rem;">📌 Vista Previa del Caso: {caso_data['titulo']}</span>
-                    <span class="badge-pill badge-quechua" style="font-size: 0.72rem;">{caso_data['idioma']}</span>
-                </div>
-                <div style="font-size: 0.84rem; color: #e2e8f0; margin-bottom: 6px;"><b>👤 Víctima Simulada:</b> {caso_data['nombre']} (DNI {caso_data['dni']}) | <b>📍 Ubicación:</b> {caso_data.get('dist_hecho', 'Lima')}, {caso_data.get('dep_hecho', 'Lima')}</div>
-                <div style="font-size: 0.82rem; color: #cbd5e1; font-style: italic; background: rgba(15, 23, 42, 0.6); padding: 8px 12px; border-radius: 8px; line-height: 1.4;">
-                    "{caso_data['mensaje']}"
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+        # Aviso Institucional de Alcance: Exclusivo Peruanos con DNI (RENIEC) & Canales de Derivación
+        st.markdown("""<div style="background: rgba(8, 51, 68, 0.45); border: 1px solid rgba(56, 189, 248, 0.35); border-left: 4px solid #38bdf8; border-radius: 10px; padding: 12px 16px; margin-bottom: 14px;"><div style="display: flex; align-items: center; justify-content: space-between;"><span style="font-size: 0.83rem; font-weight: 800; color: #38bdf8;">🇵🇪 Alcance del Canal Digital (Fase 1 - Piloto Nacional):</span><span class="badge-pill badge-zero-pii" style="font-size: 0.70rem;">RENIEC ID Perú</span></div><div style="font-size: 0.79rem; color: #cbd5e1; margin-top: 5px; line-height: 1.45;">La <strong>Validación Biométrica Oficial de Identidad</strong> opera exclusivamente con el <strong>Registro Nacional de Identificación (RENIEC)</strong> para ciudadanos peruanos con <strong>DNI</strong>. Si eres ciudadano extranjero o turista sin DNI, comunícate a la <strong>Línea Gratuita 111 PNP contra la Extorsión</strong>, <strong>Central 1818 MININTER</strong>, escribe a <a href="mailto:denuncias@mininter.gob.pe" style="color: #38bdf8; text-decoration: underline; font-weight: 600;">denuncias@mininter.gob.pe</a>, acércate a la <strong>Policía de Turismo (POLTUR)</strong> o Comisaría PNP más cercana. Más información en la <a href="https://www.gob.pe/institucion/mininter/campa%C3%B1as/101820-central-unica-de-denuncias-cud" target="_blank" style="color: #6ee7b7; text-decoration: underline; font-weight: 600;">Central Única de Denuncias (CUD) del MININTER ↗</a>.</div></div>""", unsafe_allow_html=True)
 
+        if es_ingles:
+            btn_iniciar_txt = "🛡️ Start Report with SARA Artificial Intelligence (Model Cases Use Only) ➔"
+        elif es_quechua:
+            btn_iniciar_txt = "🛡️ SARA Inteligencia Artificial-wan Denunciata Qallariy (Modelos Casollapaq) ➔"
+        elif es_aimara:
+            btn_iniciar_txt = "🛡️ SARA Inteligencia Artificial-wampi Denuncia Qalltaña (Modelos Casotaki) ➔"
+        elif es_ashaninka:
+            btn_iniciar_txt = "🛡️ SARA Inteligencia Artificial-wan Denuncia Qallariy (Modelos Casollapaq) ➔"
+        elif es_awajun:
+            btn_iniciar_txt = "🛡️ SARA Inteligencia Artificial-wampi Denuncia Nagkama (Modelos Casotaki) ➔"
+        elif es_shipibo:
+            btn_iniciar_txt = "🛡️ SARA Inteligencia Artificial-wan Denuncia Yoyo Ati (Modelos Casollapaq) ➔"
+        else:
+            btn_iniciar_txt = "🛡️ Iniciar Denuncia con SARA Inteligencia Artificial (Solo uso para Casos Modelo) ➔"
+
+        st.markdown("<div style='margin-top: 6px;'></div>", unsafe_allow_html=True)
         col_b_sp1, col_b_btn, col_b_sp2 = st.columns([1, 2.8, 1])
         with col_b_btn:
-            if st.button("🚀 Cargar Caso Modelo y Abrir Simulación Multi-Agente ➔", key="btn_abrir_denuncia_portal", use_container_width=True, type="primary"):
+            if st.button(btn_iniciar_txt, key="btn_abrir_denuncia_portal", use_container_width=True, type="primary"):
                 reiniciar_estado_nueva_denuncia()
-                aplicar_caso_modelo_global(caso_data)
                 st.session_state["portal_denuncia_iniciado"] = True
-                st.toast(f"✅ ¡Caso Modelo cargado exitosamente! Expediente abierto.", icon="🚀")
                 st.rerun()
 
     else:

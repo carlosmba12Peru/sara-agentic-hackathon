@@ -52,8 +52,17 @@ from agents.router import agent_router
 from agents.renitli_agent import renitli_agent, PADRON_OFICIAL_RENITLI
 from agents.traductor_originario import traductor_originario_agent, yachaq_agent, AgenteTraductorOriginarias
 from core.i18n import normalize_language_code, get_language_display_name
-from app.services.notification_service import notification_service
-from app.config import settings
+
+try:
+    from app.services.notification_service import notification_service
+    from app.config import settings
+except Exception:
+    try:
+        from services.notification_service import notification_service
+        from config import settings
+    except Exception:
+        notification_service = None
+        settings = None
 
 DIRECT_CORE_AVAILABLE = True
 

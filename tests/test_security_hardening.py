@@ -160,7 +160,7 @@ class TestSecurityHardening(unittest.TestCase):
         """Valida el ciclo de vida del token JWT policial con aserción FIDO2."""
         token = police_auth_service.issue_police_token(
             cip="CIP-12345678",
-            nombre_oficial="Mayor PNP Carlos Baños",
+            nombre_oficial="Mayor PNP Investigador SARA",
             unidad="DIRINCRI SECCO",
             permisos=["HITL_APPROVE_EXTORTION"]
         )

@@ -1,5 +1,5 @@
 # SARA: Sovereign Autonomous Response for Anti-Extortion
-> **Author & Creator:** **Carlos Eduardo Baños Diaz**  
+> **Author & Creator:** **SARA AI Core & Research Lab**  
 > **A Sovereign Multi-Agent Cognitive Platform on Google Cloud to Repower Emergency Hotlines (Hotline 111) and Empower the National Police (PNP) and Public Prosecution (FECOR) with Zero-PII Cryptography.**  
 > *Developed for the [All Things Agentic Hackathon on Devpost](https://allthingsagentichackathon.devpost.com/) — Main Category: **The Taskmaster** & Candidate for **Best Multimodal UX** and **Best Architectural Design**.*  
 > 🌐 **Official Live Production Link (Google Cloud Run):** [https://sara-produccion-981735936523.us-central1.run.app/](https://sara-produccion-981735936523.us-central1.run.app/)  
@@ -8,7 +8,7 @@
 > 🤖 **Official Citizen Notification Bot (Telegram):** [@kallpa_IA_asistente_bot](https://t.me/kallpa_IA_asistente_bot)  
 
 > ⚠️ **Institutional Independence & Intellectual Property Disclaimer:**  
-> **SARA is an independent research, software prototype, and demonstrative project conceived, designed, and developed exclusively by Carlos Eduardo Baños Diaz for the "All Things Agentic Hackathon" organized by Google Cloud & Devpost.**  
+> **SARA is an independent research, software prototype, and demonstrative project conceived, designed, and developed exclusively by the SARA AI Core & Research Lab for the "All Things Agentic Hackathon" organized by Google Cloud & Devpost.**  
 > It is **not** an official platform, nor does it hold institutional representation, sponsorship, or formal endorsement from the **Peruvian National Police (PNP)**, the **Ministry of the Interior (MININTER)**, the **Public Ministry (Fiscalía de la Nación)**, or any other agency of the Republic of Peru. All references to public institutions, statutory frameworks (Legislative Decrees No. 1735, 1731, Law No. 32183, Law No. 32303, D.S. 007-2025-JUS), official datasets (SIDPOL, Public Ministry / IPE reports), and technical platforms (PIDE) are used strictly as a realistic domain model and engineering benchmark for academic and demonstrative purposes under strict privacy standards.  
 >  
 > 🔒 **Synthetic Data & Ethical Privacy Disclosure (Peruvian Law No. 29733 & Zero-PII):**  
@@ -42,24 +42,25 @@ Cross-referencing official 2026 data from the **Public Ministry (MPFN)**, **Mini
 
 ```
    ┌────────────────────────────────────────────────────────────────────────────────────────┐
-   │ 🚨 2026 FULL-YEAR EXTORTION IMPUNITY PROJECTION (CROSS-INSTITUTIONAL PERU DATA)        │
+   │ 🚨 4-LEVEL EXTORTION IMPUNITY FUNNEL IN PERU (2026 OFFICIAL PROJECTIONS)              │
    │                                                                                        │
-   │ 1. 👥 REAL STREET ATTACKS (Dark Figure):        170,000 to 250,000 Real Extortions/Yr  │
-   │    • Over 85% - 90% Never Report due to mortal fear of corrupt leaks and retaliation.  │
+   │ 1. 👥 REAL STREET EXTORTIONS (Dark Figure / Terror):     ~200,000 Real Extortions/Yr   │
+   │    • Over 85% Never Report due to mortal terror of corrupt leaks and retaliation.     │
    │                                                                                        │
-   │ 2. 👮 POLICE STATION COMPLAINTS (SIDPOL):       ~18,500 to 20,000 Formal Complaints   │
+   │ 2. 👮 POLICE STATIONS (SIDPOL - Paper Limbo):            ~19,000 Formal Complaints     │
    │    • Official base: 7,694 explicit extortion complaints in 5 months (Jan–May 2026).    │
    │                                                                                        │
-   │ 3. ⚖️ PROSECUTION CASELOAD (MPFN / FECOR):       ~25,300 to 27,500 Formal Crimes/Yr     │
+   │ 3. ⚖️ PUBLIC MINISTRY (MPFN 1st Sem. Report):            ~26,000 Formal Crimes/Yr      │
    │    • Official base: 12,634 crimes in 1st Semester 2026 (Jan–Jun / 70 crimes per day).  │
    │                                                                                        │
-   │ 4. 👨‍⚖️ FLAGRANCY COURT TRIALS (Judiciary):        ~230 to 250 Cases Judged / Year        │
+   │ 4. 👨‍⚖️ JUDICIARY FLAGRANCY COURTS (Cases Judged):        ~240 Cases Judged / Year      │
    │    • Official base: 115 cases in 1st Semester 2026 (78 cases in full year 2025).       │
    │   ───────────────────────────────────────────────────────────────────────────────────  │
-   │   🛑 JUDICIAL RESOLUTION RATE (vs. Prosecution):   0.92%  (Only 1 in ~100 crimes)      │
-   │   🛑 REAL JUDICIAL RESOLUTION RATE (vs. Streets):   0.12%  (Only 1 in ~830 extortions)  │
-   │   🚪 PROJECTED SYSTEMIC IMPUNITY RATE (2026):       99.08% to 99.88% Unpunished        │
-   │   *(Note: Linear annualized 2026 projections based on official Jan–May and Jan–Jun data)* │
+   │   🛑 JUDICIAL RESOLUTION RATE (vs. Prosecution):   0.92%  (Only 1 in ~108 crimes)     │
+   │   🛑 REAL JUDICIAL RESOLUTION RATE (vs. Streets):   0.12%  (Only 1 in ~833 extortions) │
+   │   🚪 SYSTEMIC IMPUNITY RATE (2026):                99.88% Unpunished                   │
+   │   ───────────────────────────────────────────────────────────────────────────────────  │
+   │   🛡️ SARA: AI Sovereign Copilot - 1.8s Digital Forensic Dossiers                       │
    └────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -365,7 +366,7 @@ SARA incorporates defense-in-depth cybersecurity across 5 physical and cryptogra
 
 ## 🛠️ 13. Tech Stack & Authorship
 
-* **Author & System Architect:** **Carlos Eduardo Baños Diaz**.
+* **Author & System Architect:** **SARA AI Core & Research Lab**.
 * **AI Pair-Programming Acceleration:** Google Antigravity IDE (Agentic Coding Assistant).
 * **Foundational AI Models:** Google Gemini 2.5 Flash, Google Gemini 3.7 Flash, and Google Gemini 3.7 Pro Reasoning (Thinking Budget = 2048 tokens).
 * **Agentic Framework:** Google Agent Development Kit (ADK) & Google GenAI Python SDK (`google-genai`).
@@ -374,4 +375,4 @@ SARA incorporates defense-in-depth cybersecurity across 5 physical and cryptogra
 
 ---
 
-*SARA v2.1.0-hackathon - Conceived, Designed, and Developed by **Carlos Eduardo Baños Diaz** for the All Things Agentic Hackathon | Google Cloud & Devpost © 2026. All Rights Reserved.*
+*SARA v2.1.0-hackathon - Conceived, Designed, and Developed by **SARA AI Core & Research Lab** for the All Things Agentic Hackathon | Google Cloud & Devpost © 2026. All Rights Reserved.*

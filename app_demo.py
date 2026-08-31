@@ -1901,7 +1901,7 @@ with st.sidebar:
         st.success("✨ Gemini Multimodal Vision Activado")
     
     st.markdown("---")
-    st.caption("👤 **Autor & Creador:** Carlos Eduardo Baños Diaz")
+    st.caption("🛡️ **Equipo:** SARA AI Core & Research Lab")
     st.caption("🏆 **Hackathon:** All Things Agentic | Google Cloud & Devpost")
     st.caption("⚡ **Engine:** Gemini 3.7 Flash + Pro Reasoning")
 
@@ -9532,7 +9532,7 @@ elif menu.startswith("🏛️ 8."):
             <div style="background: rgba(15, 23, 42, 0.85); border: 1.5px solid #38bdf8; border-radius: 10px; padding: 12px 16px; margin-bottom: 14px;">
                 <div style="font-weight: 800; color: #38bdf8; font-size: 0.95rem;">💡 Arquitectura e Innovación Humana + Aceleración Agéntica</div>
                 <div style="font-size: 0.83rem; color: #cbd5e1; margin-top: 6px; line-height: 1.45;">
-                    • <strong>Concepción, Diseño y Arquitectura Soberana:</strong> Diseñado íntegramente por <strong>Carlos Eduardo Baños Diaz</strong>.<br/>
+                    • <strong>Concepción, Diseño y Arquitectura Soberana:</strong> Diseñado por el <strong>SARA AI Engineering & Research Lab</strong>.<br/>
                     • <strong>Co-desarrollo Asistido (Pair-Programming):</strong> Construido y optimizado en colaboración continua con <strong>Google Antigravity (IDE Agéntico)</strong>.<br/>
                     • <strong>Auditoría Criptográfica y Jurídica:</strong> Gobernanza de IA conforme a la <strong>Ley N° 31814</strong>, <strong>ISO/IEC 42001</strong> y <strong>NIST AI RMF</strong>.
                 </div>
@@ -10028,7 +10028,7 @@ elif menu.startswith("🏛️ 9."):
 st.markdown("---")
 st.markdown(
     "<div style='text-align: center; color: #64748b; font-size: 0.85rem;'>"
-    "SARA v2.0 - Concebido y Desarrollado por <strong>Carlos Eduardo Baños Diaz</strong> para el All Things Agentic Hackathon | Google Cloud & Devpost © 2026. Todos los derechos reservados."
+    "SARA v2.0 - Sistema Autónomo de Respuesta Anti-Extorsión | All Things Agentic Hackathon | Google Cloud & Devpost © 2026. Todos los derechos reservados."
     "</div>",
     unsafe_allow_html=True
 )

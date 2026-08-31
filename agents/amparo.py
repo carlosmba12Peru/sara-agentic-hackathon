@@ -135,30 +135,277 @@ class AmparoAgent:
 
     def conversar_y_autocompletar_ficha(
         self,
-        historial_mensajes: List[Dict[str, str]],
-        ficha_previa: Optional[Dict[str, Any]] = None
+        historial_mensajes: Optional[List[Dict[str, str]]] = None,
+        nuevo_mensaje: Optional[str] = None,
+        ficha_previa: Optional[Dict[str, Any]] = None,
+        **kwargs
     ) -> Dict[str, Any]:
         """
-        Interacción conversacional con la víctima para completar la ficha de denuncia en vivo.
+        Interacción conversacional fluida y empática con la víctima para responder sus dudas,
+        contenerla emocionalmente y autocompletar en vivo la ficha táctica de denuncia.
         """
         ficha = dict(ficha_previa or {})
-        ultimo_mensaje = historial_mensajes[-1]["content"] if historial_mensajes else ""
-        analisis = self._heuristic_containment(ultimo_mensaje)
+        historial = list(historial_mensajes or [])
 
-        # Extracción automática de campos para la ficha en vivo
-        pistas = analisis.get("pistas_infractor_extraidas", {})
-        if pistas.get("telefonos_sospechosos") and not ficha.get("telefono_extorsionador"):
-            ficha["telefono_extorsionador"] = pistas["telefonos_sospechosos"][0]
-        if pistas.get("montos_exigidos") and not ficha.get("monto_exigido"):
-            ficha["monto_exigido"] = f"S/ {pistas['montos_exigidos'][0]}"
-        if pistas.get("cuentas_bancarias_mencionadas") and not ficha.get("cuenta_receptora"):
-            ficha["cuenta_receptora"] = pistas["cuentas_bancarias_mencionadas"][0]
+        # Determinar el mensaje de usuario más reciente
+        texto_usuario = (nuevo_mensaje or "").strip()
+        if not texto_usuario and historial:
+            for m in reversed(historial):
+                if m.get("role") == "user" and m.get("content"):
+                    texto_usuario = m["content"].strip()
+                    break
 
-        respuesta = analisis.get("mensaje_contencion")
+        if not texto_usuario:
+            texto_usuario = "Hola"
+
+        analisis_heuristico = self._heuristic_containment(texto_usuario)
+        idioma_det = analisis_heuristico.get("idioma_detectado", "ESPAÑOL")
+
+        # 1. Intentar responder mediante Gemini Flash
+        api_key = (self.api_key or os.getenv("GEMINI_API_KEY", "")).strip()
+        from core.llm_circuit_breaker import is_llm_available, report_quota_exhausted, call_with_fast_timeout
+
+        respuesta_texto = None
+        datos_extraidos = {}
+
+        if is_llm_available() and api_key and len(api_key) > 20 and not api_key.startswith("your_"):
+            try:
+                from google import genai
+                client = genai.Client(api_key=api_key)
+
+                ultimos_mensajes_txt = []
+                for m in historial[-6:]:
+                    rol = "Ciudadano/a" if m.get("role") == "user" else "Amparo IA"
+                    ultimos_mensajes_txt.append(f"{rol}: {m.get('content', '')}")
+                dialogo_previo = "\n".join(ultimos_mensajes_txt)
+
+                prompt = (
+                    f"Ficha Táctica Actual:\n{json.dumps(ficha, ensure_ascii=False)}\n\n"
+                    f"Diálogo previo:\n{dialogo_previo}\n\n"
+                    f"Mensaje del ciudadano: \"\"\"{texto_usuario}\"\"\"\n\n"
+                    "Eres Amparo / Kallpa IA (Línea de Emergencia 111 de la PNP). Responde en 2 a 3 oraciones con empatía, calidez humana y orientación clara adaptada exactamente a lo que dice el ciudadano. "
+                    "Extrae cualquier dato relevante (nombre, dni, teléfono, monto, cuenta, banda, dirección, hechos).\n"
+                    "Responde en formato JSON:\n"
+                    '{"respuesta_kallpa": "tu mensaje empático", "datos_extraidos": {"nombre_completo": null, "dni": null, "telefono_contacto": null, "direccion": null, "resumen_hechos": null, "telefono_extorsionador": null, "monto_exigido": null, "cuentas_bancarias": [], "banda_u_organizacion": null, "canal_contacto": null}}'
+                )
+
+                model_to_use = os.getenv("GEMINI_FLASH_MODEL", "gemini-3.6-flash")
+                response = call_with_fast_timeout(
+                    client.models.generate_content,
+                    model=model_to_use,
+                    contents=prompt,
+                    config={
+                        "system_instruction": AMPARO_SYSTEM_INSTRUCTION,
+                        "response_mime_type": "application/json",
+                    },
+                    timeout_seconds=7.0
+                )
+                if response and getattr(response, "text", None):
+                    res_json = json.loads(response.text)
+                    respuesta_texto = res_json.get("respuesta_kallpa") or res_json.get("mensaje_contencion")
+                    datos_extraidos = res_json.get("datos_extraidos", {})
+            except Exception as e:
+                report_quota_exhausted(str(e))
+                logger.warning(f"Fallback local en Amparo IA: {e}")
+
+        # 2. Heurística conversacional reactiva y empática (Motor Local Adaptativo)
+        if not respuesta_texto:
+            txt_low = texto_usuario.lower().strip()
+            pistas = analisis_heuristico.get("pistas_infractor_extraidas", {})
+            tels = pistas.get("telefonos_sospechosos", [])
+            montos = pistas.get("montos_exigidos", [])
+            cuentas = pistas.get("cuentas_bancarias_mencionadas", [])
+            es_vida = pistas.get("amenaza_armas_o_vida", False)
+
+            # A) Lenguas originarias e inglés
+            if idioma_det == "QUECHUA":
+                respuesta_texto = "Allillanchu mamay/taytay. Ama manchakuychu, manam sapallaykichu kanki. Naro Amparo, kaypin kashayku qanta aylluykitapas amachanaykupaq. Willaway tukuy ima pasasqanta, policia nacionalmi cuidasunki."
+            elif idioma_det == "AIMARA":
+                respuesta_texto = "Kamisaraki jilata/kullaka, jan axsaramti, janiw sapakïtati. Amparo jumaru amachañataki akankapxtwawa. Policia Nacional jumaru yanapapuniniwa."
+            elif idioma_det == "SHIPIBO":
+                respuesta_texto = "Jakon nete nokon wetsá, yama rakéte. Ea riki Amparo, akinanti SARA Zero-PII amachani. Policia Nacional mia akinai."
+            elif idioma_det == "ASHANINKA":
+                respuesta_texto = "Kitaiteri nomaimaye, eiro pitsaroiti. Naro Amparo, noaminakoita kemisantantsi Zero-PII. Policia Nacional amachakoyena."
+            elif idioma_det == "AWAJUN":
+                respuesta_texto = "Kumpami yatsuch, ishamkaipa. Wiitjai Amparo, yaimtai chichaman antin Zero-PII. Policia Nacional yaimpaktinme."
+            elif idioma_det == "ENGLISH":
+                respuesta_texto = "Stay calm, I am Amparo from SARA. You are in a safe and protected emergency channel. I have logged your information and authorities are protecting your identity under Zero-PII."
+            else:
+                # B) Detección de intenciones en Castellano
+                es_saludo = any(w in txt_low for w in ["hola", "buenos dias", "buenas tardes", "buenas noches", "buen dia", "alo", "aló", "hey"])
+                es_auxilio = any(w in txt_low for w in ["ayuda", "ayua", "socorro", "urgente", "emergencia", "auxilio", "salvame", "sálvame", "asustado", "asustada", "miedo"])
+                es_extorsion_general = any(w in txt_low for w in ["extorsion", "extorsión", "me extorsionan", "me estan amenazando", "me amenazan", "cupo", "chalequeo", "gota a gota", "amenaza"])
+                es_agradecimiento = any(w in txt_low for w in ["gracias", "muchas gracias", "ok", "listo", "entendido", "perfecto"])
+
+                detalles_detectados = []
+                if tels:
+                    detalles_detectados.append(f"el número extorsivo `{tels[0]}`")
+                if montos:
+                    detalles_detectados.append(f"la exigencia de `{montos[0]} soles`")
+                if cuentas:
+                    detalles_detectados.append(f"la cuenta bancaria `{cuentas[0]}`")
+
+                num_msgs_user = sum(1 for m in historial if m.get("role") == "user")
+
+                if es_vida:
+                    respuesta_texto = (
+                        "🚨 **Tranquilo/a, respira hondo: tu vida y la de tu familia son la máxima prioridad.** "
+                        "He registrado de inmediato la amenaza grave en tu ficha táctica. Este canal es 100% confidencial bajo Código Secreto CUP. "
+                        + (f"He anotado {' y '.join(detalles_detectados)} para su rastreo pericial. " if detalles_detectados else "")
+                        + "Cuéntame con tranquilidad si tienes fotos de las notas o capturas de pantalla, y cuando desees presiona el botón para formalizar la denuncia."
+                    )
+                elif detalles_detectados:
+                    respuesta_texto = (
+                        f"He tomado nota de {' y '.join(detalles_detectados)} "
+                        "y lo he agregado directamente a tu expediente táctico. Tu identidad se mantiene 100% en anonimato legal. "
+                        "¿Te mencionaron el nombre de alguna banda o te dieron un plazo límite de pago?"
+                    )
+                elif es_auxilio or es_extorsion_general:
+                    if num_msgs_user <= 1:
+                        respuesta_texto = (
+                            "🚨 **Mantén la calma, estás en un espacio seguro y protegido.** "
+                            "Soy Amparo de la Línea 111. Tu caso y tu identidad están blindados bajo la Ley de Protección de Datos (Zero-PII). "
+                            "Cuéntame con tranquilidad qué te está sucediendo: ¿de qué número te contactan o qué te exigen?"
+                        )
+                    elif num_msgs_user == 2:
+                        respuesta_texto = (
+                            "Te estoy escuchando y acompañando paso a paso. "
+                            "Para que la Policía y la Fiscalía puedan actuar de inmediato: ¿te han enviado mensajes por WhatsApp, llamadas o dejaron una nota física?"
+                        )
+                    else:
+                        respuesta_texto = (
+                            "Estoy aquí contigo. Ya he abierto tu expediente de emergencia. "
+                            "Por favor, indícame si tienes el número del extorsionador, cuánto dinero te piden o si conoces el alias de los sospechosos."
+                        )
+                elif es_saludo:
+                    respuesta_texto = (
+                        "¡Hola! Soy Amparo, tu asistente de contención y protección ciudadana de SARA (Línea de Emergencia 111). "
+                        "Respira hondo: este canal es confidencial y seguro. Cuéntame qué ha sucedido o qué amenaza necesitas denunciar."
+                    )
+                elif es_agradecimiento:
+                    respuesta_texto = (
+                        "Con todo gusto. Recuerda que no estás solo/a en esto. "
+                        "Cuando hayas terminado de revisar los datos en la ficha de la izquierda, presiona el botón **Formalizar Denuncia Táctica** para enviar el expediente sellado a la Policía Nacional."
+                    )
+                else:
+                    if len(texto_usuario) > 25:
+                        respuesta_texto = (
+                            f"He registrado tu declaración en la ficha táctica de denuncia. "
+                            "¿Cuentas con capturas de pantalla, audios o números telefónicos para adjuntarlos a la investigación?"
+                        )
+                    else:
+                        respuesta_texto = (
+                            "He recibido tu mensaje y estoy atenta para ayudarte. "
+                            "Por favor, comparte cualquier detalle de la amenaza (números, montos, mensajes o audios) para registrarlo en tu denuncia protegida."
+                        )
+
+        # 3. Actualizar la Ficha Táctica con datos estructurados
+        for k, v in (datos_extraidos or {}).items():
+            if v and v != "null" and not ficha.get(k):
+                ficha[k] = v
+
+        import re
+        tels_heur = re.findall(r'(?:\+?51\s*)?9\d{8}', texto_usuario)
+        montos_heur = re.findall(r'(\d+[\d,\.]*)\s*(?:soles|sol|dolares|dólares|usd|\$|s/\.?)', texto_usuario, re.IGNORECASE)
+        cuentas_heur = re.findall(r'(?:cuenta|bcp|bbva|interbank|yape|plin|iban|número de cuenta)\s*:?\s*(\d[\d\s\-]{6,20})', texto_usuario, re.IGNORECASE)
+
+        if tels_heur and not ficha.get("telefono_extorsionador"):
+            ficha["telefono_extorsionador"] = tels_heur[0]
+        if montos_heur and not ficha.get("monto_exigido"):
+            ficha["monto_exigido"] = f"S/ {montos_heur[0]}"
+        if cuentas_heur:
+            c_actual = ficha.get("cuentas_bancarias", [])
+            if isinstance(c_actual, str):
+                c_actual = [c_actual] if c_actual else []
+            for c in cuentas_heur:
+                if c not in c_actual:
+                    c_actual.append(c)
+            ficha["cuentas_bancarias"] = c_actual
+            ficha["cuenta_receptora"] = c_actual[0] if c_actual else ""
+
+        bandas_peru = [
+            "Los Injertos del Norte", "Los Injertos de SJL", "Los Injertos",
+            "Los Mexicanos", "Los Pulpos", "Tren de Aragua", "Los Choneros",
+            "Los Malditos del Triunfo", "La Jauría", "Los Gallegos", "Dinastía Alayón"
+        ]
+        for b in bandas_peru:
+            if b.lower() in texto_usuario.lower():
+                ficha["banda_u_organizacion"] = b
+                break
+
+        if any(w in texto_usuario.lower() for w in ["whatsapp", "wsp", "wasap"]):
+            ficha["canal_contacto"] = "WhatsApp / Mensajería OTT"
+        elif any(w in texto_usuario.lower() for w in ["llamada", "llamaron", "llaman", "telefono"]):
+            ficha["canal_contacto"] = "Llamada Telefónica"
+        elif any(w in texto_usuario.lower() for w in ["carta", "papel", "sobre", "nota", "bala", "granada"]):
+            ficha["canal_contacto"] = "Nota Extorsiva Física con Proyectil / Explosivo"
+
+        res_previo = ficha.get("resumen_hechos", "")
+        if len(texto_usuario) > 15:
+            if not res_previo:
+                ficha["resumen_hechos"] = texto_usuario
+            elif texto_usuario not in res_previo:
+                ficha["resumen_hechos"] = f"{res_previo}\n{texto_usuario}".strip()
+
+        campos_clave = ["resumen_hechos", "telefono_extorsionador", "monto_exigido", "canal_contacto", "departamento"]
+        llenos = sum(1 for c in campos_clave if ficha.get(c))
+        ficha["completitud"] = min(100, 40 + llenos * 12)
+
         return {
-            "respuesta_asistente": respuesta,
+            "respuesta_kallpa": respuesta_texto,
+            "respuesta_asistente": respuesta_texto,
+            "mensaje_contencion": respuesta_texto,
             "ficha_actualizada": ficha,
-            "analisis": analisis
+            "analisis": analisis_heuristico
+        }
+
+    def procesar_audio_en_vivo(self, audio_bytes: bytes, mime_type: str = "audio/wav") -> Dict[str, Any]:
+        """Procesa y transcribe audio en vivo desde el navegador usando Gemini Multimodal."""
+        import hashlib
+        audio_hash = hashlib.sha256(audio_bytes).hexdigest()
+        api_key = (self.api_key or os.getenv("GEMINI_API_KEY", "")).strip()
+
+        transcripcion = "Audio recibido y sellado en cadena de custodia."
+        idioma_det = "ESPAÑOL"
+        trad_esp = transcripcion
+
+        from core.llm_circuit_breaker import is_llm_available, report_quota_exhausted, call_with_fast_timeout
+        if is_llm_available() and api_key and len(api_key) > 20 and not api_key.startswith("your_"):
+            try:
+                from google import genai
+                from google.genai import types
+                client = genai.Client(api_key=api_key)
+
+                model_to_use = os.getenv("GEMINI_FLASH_MODEL", "gemini-3.6-flash")
+                prompt_aud = (
+                    "Transcribe con máxima precisión este audio en el idioma original (Castellano, Quechua, Aimara, Shipibo-Konibo, Asháninka o Awajún). "
+                    "Si está en una lengua originaria, traduce también al Castellano. "
+                    "Retorna en formato JSON:\n"
+                    '{"transcripcion": "...", "idioma_detectado": "ESPAÑOL|QUECHUA|AIMARA|SHIPIBO|ASHANINKA|AWAJUN", "traduccion_espanol": "..."}'
+                )
+
+                part_audio = types.Part.from_bytes(data=audio_bytes, mime_type=mime_type)
+                response = call_with_fast_timeout(
+                    client.models.generate_content,
+                    model=model_to_use,
+                    contents=[part_audio, prompt_aud],
+                    config={"response_mime_type": "application/json"},
+                    timeout_seconds=5.0
+                )
+                if response and getattr(response, "text", None):
+                    j_res = json.loads(response.text)
+                    transcripcion = j_res.get("transcripcion", transcripcion)
+                    idioma_det = j_res.get("idioma_detectado", idioma_det)
+                    trad_esp = j_res.get("traduccion_espanol", transcripcion)
+            except Exception as e:
+                report_quota_exhausted(str(e))
+                logger.warning(f"Audio processing fallback: {e}")
+
+        return {
+            "transcripcion": transcripcion,
+            "idioma_detectado": idioma_det,
+            "traduccion_espanol": trad_esp,
+            "audio_hash_sha256": audio_hash
         }
 
     def consultar_asistente_policial_hitl(

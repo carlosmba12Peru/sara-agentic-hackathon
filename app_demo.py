@@ -27,8 +27,11 @@ _APP_ROOT = os.path.abspath(os.path.dirname(__file__))
 if _APP_ROOT not in sys.path:
     sys.path.insert(0, _APP_ROOT)
 
-import importlib
-importlib.invalidate_caches()
+try:
+    import importlib
+    importlib.invalidate_caches()
+except Exception:
+    pass
 
 # Importación de componentes del Núcleo y Agentes de SARA
 from core.secure_vault import secure_vault
@@ -2044,6 +2047,78 @@ if menu.startswith("📋 1."):
         st.markdown("---")
 
         # ======================================================================
+        # 🌐 INICIALIZACIÓN GLOBAL DE VAPI WEBRTC (LLAMADA DE VOZ EN VIVO LÍNEA 111)
+        # ======================================================================
+        vapi_pk = settings.VAPI_PUBLIC_KEY or os.getenv("VAPI_PUBLIC_KEY", "")
+        vapi_asst_id = settings.VAPI_ASSISTANT_ID or os.getenv("VAPI_ASSISTANT_ID", "")
+
+        if vapi_pk and vapi_asst_id:
+            vapi_global_html = f"""
+            <script>
+                (function() {{
+                    const topWin = window.parent || window;
+                    const topDoc = topWin.document;
+
+                    const buttonConfig = {{
+                        position: "bottom-right",
+                        offset: "30px",
+                        width: "64px",
+                        height: "64px",
+                        idle: {{
+                            color: "rgb(16, 185, 129)",
+                            type: "round",
+                            title: "📞 Hablar con Amparo IA",
+                            subtitle: "Línea 111 SARA",
+                            icon: "https://unpkg.com/lucide-static@0.321.0/icons/phone.svg"
+                        }},
+                        loading: {{
+                            color: "rgb(245, 158, 11)",
+                            type: "round",
+                            title: "Conectando...",
+                            subtitle: "Línea 111 de SARA",
+                            icon: "https://unpkg.com/lucide-static@0.321.0/icons/loader-2.svg"
+                        }},
+                        active: {{
+                            color: "rgb(239, 68, 68)",
+                            type: "round",
+                            title: "🔴 En Llamada 111",
+                            subtitle: "Toca para colgar",
+                            icon: "https://unpkg.com/lucide-static@0.321.0/icons/phone-off.svg"
+                        }}
+                    }};
+
+                    function initVapi() {{
+                        if (!topDoc.getElementById("sara-vapi-sdk-script")) {{
+                            const s = topDoc.createElement("script");
+                            s.id = "sara-vapi-sdk-script";
+                            s.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+                            s.defer = true;
+                            s.onload = () => {{
+                                if (topWin.vapiSDK && !topWin._saraVapiInstance) {{
+                                    topWin._saraVapiInstance = topWin.vapiSDK.run({{
+                                        apiKey: "{vapi_pk}",
+                                        assistant: "{vapi_asst_id}",
+                                        config: buttonConfig
+                                    }});
+                                }}
+                            }};
+                            topDoc.head.appendChild(s);
+                        }} else if (topWin.vapiSDK && !topWin._saraVapiInstance) {{
+                            topWin._saraVapiInstance = topWin.vapiSDK.run({{
+                                apiKey: "{vapi_pk}",
+                                assistant: "{vapi_asst_id}",
+                                config: buttonConfig
+                            }});
+                        }}
+                    }}
+
+                    initVapi();
+                }})();
+            </script>
+            """
+            st.components.v1.html(vapi_global_html, height=0)
+
+        # ======================================================================
         # 🌐 SELECTOR OMNICANAL DE ENTRADA: PORTAL DIGITAL VS LÍNEA TELEFÓNICA
         # ======================================================================
         st.session_state.setdefault("canal_entrada_activo", "portal_web")
@@ -2084,9 +2159,6 @@ if menu.startswith("📋 1."):
         # 📞 SECCIÓN CANAL B: LLAMADA TELEFÓNICA DE EMERGENCIA (VOZ PURA)
         # ======================================================================
         if st.session_state["canal_entrada_activo"] == "telefono_voz":
-            vapi_pk = settings.VAPI_PUBLIC_KEY or os.getenv("VAPI_PUBLIC_KEY", "")
-            vapi_asst_id = settings.VAPI_ASSISTANT_ID or os.getenv("VAPI_ASSISTANT_ID", "")
-
             st.markdown("""
             <div style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 58, 138, 0.35) 50%, rgba(14, 116, 144, 0.25) 100%); border: 1.5px solid #38bdf8; border-radius: 14px; padding: 18px 24px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);">
                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
@@ -2469,13 +2541,82 @@ if menu.startswith("📋 1."):
                 label_tab_chat = "💬 Chat Asistido con Amparo IA (Línea de Emergencia 111)"
 
         if st.session_state.get("canal_entrada_activo") == "portal_web":
-            st.markdown("### 📋 FORMULARIO DE DENUNCIA Y EXPEDIENTE DIGITAL TÁCTICO (SARA)")
-            tab_formulario_clasico, tab_chat_ia = st.tabs([label_tab_form, label_tab_chat])
-        else:
-            tab_formulario_clasico, tab_chat_ia = st.container(), st.container()
+            st.markdown("""
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+                <h3 style="margin: 0; color: #f8fafc; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.3px;">
+                    📋 FORMULARIO DE DENUNCIA Y EXPEDIENTE DIGITAL TÁCTICO (SARA)
+                </h3>
+                <span style="background: rgba(245, 158, 11, 0.16); color: #fcd34d; border: 1px solid #f59e0b; padding: 4px 12px; border-radius: 9999px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.3px;">
+                    ⚠️ SIMULACIÓN DE DEMOSTRACIÓN TÉCNICA — SIN VALOR LEGAL (PoC)
+                </span>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # 📞 TARJETA INTERACTIVA DE LLAMADA DE EMERGENCIA DIRECTA EN CANAL A
+            if vapi_pk and vapi_asst_id:
+                st.markdown("""
+                <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.16) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1.5px solid #10b981; border-radius: 14px; padding: 12px 18px; margin-bottom: 10px; box-shadow: 0 4px 16px rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                    <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 260px;">
+                        <span style="font-size: 1.9rem; line-height: 1;">📞</span>
+                        <div>
+                            <div style="font-weight: 800; color: #34d399; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
+                                <span>¿Prefieres reportar por llamada de voz en tiempo real?</span>
+                                <span style="background: #059669; color: white; padding: 2px 8px; border-radius: 9999px; font-size: 0.68rem; font-weight: 700;">LÍNEA 111</span>
+                            </div>
+                            <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 2px; line-height: 1.35;">
+                                <b>Amparo IA</b> (Gemini 3.7 Flash + ElevenLabs) te escucha por teléfono (<600ms), te brinda contención y <b>autocompleta este expediente</b> mientras conversas.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                vapi_btn_canala_html = f"""
+                <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+                    <button id="vapi-call-btn-canala" style="
+                        background: linear-gradient(135deg, #10b981, #059669);
+                        color: white;
+                        font-weight: 700;
+                        font-size: 0.92rem;
+                        padding: 10px 22px;
+                        border: none;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 8px;
+                        transition: all 0.25s ease;
+                    ">
+                        <span>📞</span> <span>Iniciar Llamada Telefónica con Amparo IA (Línea 111)</span>
+                    </button>
+                    <span style="font-size: 0.8rem; color: #34d399; font-weight: 600;">● Línea 111 Lista</span>
+                </div>
+                <script>
+                    (function() {{
+                        const topWin = window.parent || window;
+                        const topDoc = topWin.document;
+                        const btn = document.getElementById("vapi-call-btn-canala");
+                        if (btn) {{
+                            btn.addEventListener("click", () => {{
+                                const floatingBtn = topDoc.querySelector("#vapi-button") || topDoc.querySelector(".vapi-btn") || topDoc.querySelector("button[class*='vapi']");
+                                if (floatingBtn) {{
+                                    floatingBtn.click();
+                                }} else if (topWin._saraVapiInstance && typeof topWin._saraVapiInstance.toggle === 'function') {{
+                                    topWin._saraVapiInstance.toggle();
+                                }}
+                            }});
+                        }}
+                    }})();
+                </script>
+                """
+                st.components.v1.html(vapi_btn_canala_html, height=52)
+        
+        tab_formulario_clasico = None
+        tab_chat_ia = st.container()
 
         # ======================================================================
-        # 💬 TAB 1: MODO CHAT ASISTIDO CON AMPARO IA (SPLIT-SCREEN LIVE AUTO-FILL)
+        # 📋 FORMULARIO DE DENUNCIA Y EXPEDIENTE DIGITAL TÁCTICO (EN VIVO CON IA)
         # ======================================================================
         with tab_chat_ia:
             if not st.session_state.get("chat_submission_active"):
@@ -3209,13 +3350,13 @@ if menu.startswith("📋 1."):
                             placeholder="Ej. El día de hoy sujetos desconocidos me enviaron mensajes de WhatsApp exigiéndome S/ 5,000 bajo amenaza de atentar contra mi negocio o mi familia. Me dieron 24 horas de plazo y dejaron una carta con dos balas en mi puerta..."
                         )
 
-                        # Diálogo Asistido con Kallpa IA (Directamente debajo del relato)
+                        # Diálogo Asistido con Amparo IA (Directamente debajo del relato)
                         if not st.session_state.get("chat_flotante_abierto", False):
                             col_sara2_txt, col_sara2_btn = st.columns([2.8, 1.2])
                             with col_sara2_txt:
                                 st.markdown("""
-                                <div style="background: rgba(124, 58, 237, 0.08); border-left: 3.5px solid #c084fc; border-radius: 8px; padding: 7px 12px; margin: 2px 0;">
-                                    <span style="font-size: 0.81rem; font-weight: 700; color: #c084fc;">🤝 ¿Prefieres contárselo a Kallpa por voz o chat?</span>
+                                <div style="background: rgba(124, 58, 237, 0.08); border-left: 3.5px solid #c084fc; border-radius: 8px; padding: 7px 12px; margin-2px 0;">
+                                    <span style="font-size: 0.81rem; font-weight: 700; color: #c084fc;">🤝 ¿Prefieres contárselo a Amparo IA por voz o chat?</span>
                                     <span style="font-size: 0.77rem; color: #cbd5e1; margin-left: 4px;">
                                         Ella te escuchará, te brindará contención y redactará tu relato de forma automática.
                                     </span>
@@ -3386,10 +3527,10 @@ if menu.startswith("📋 1."):
                         ficha["distrito_hechos"] = live_dist_hecho
 
                         # --------------------------------------------------------------
-                        # 2.4 SUB-BLOQUE: DATOS DEL EXTORSIONADOR EXTRAÍDOS POR KALLPA IA
+                        # 2.4 SUB-BLOQUE: DATOS DEL EXTORSIONADOR EXTRAÍDOS POR AMPARO IA
                         # --------------------------------------------------------------
                         st.markdown("<div style='margin-top: 12px;'></div>", unsafe_allow_html=True)
-                        st.markdown("<div style='font-size: 0.83rem; font-weight: 800; color: #c084fc; margin-bottom: 4px;'>2.4 Datos del Extorsionador que Kallpa reconoció (Opcional):</div>", unsafe_allow_html=True)
+                        st.markdown("<div style='font-size: 0.83rem; font-weight: 800; color: #c084fc; margin-bottom: 4px;'>2.4 Datos del Extorsionador que Amparo IA reconoció (Opcional):</div>", unsafe_allow_html=True)
                         with st.expander("🤖 Ver datos identificados en tu conversación o relato (teléfono, cuentas, montos)", expanded=False):
                             num_mensajes_chat = len(st.session_state.get("kallpa_chat_messages", []))
                             if num_mensajes_chat > 0:
@@ -3397,7 +3538,7 @@ if menu.startswith("📋 1."):
                                 <div style="background: rgba(16, 185, 129, 0.1); border-left: 3.5px solid #10b981; border-radius: 8px; padding: 7px 12px; margin-bottom: 8px;">
                                     <span style="font-size: 0.79rem; color: #6ee7b7; font-weight: 700;">✅ Conversación Guardada:</span>
                                     <span style="font-size: 0.76rem; color: #cbd5e1; margin-left: 4px;">
-                                        Se han registrado <b>{num_mensajes_chat} mensaje(s)</b> con Kallpa IA. Tu testimonio completo se incluye automáticamente en tu denuncia.
+                                        Se han registrado <b>{num_mensajes_chat} mensaje(s)</b> con Amparo IA. Tu testimonio completo se incluye automáticamente en tu denuncia.
                                     </span>
                                 </div>
                                 """, unsafe_allow_html=True)
@@ -3406,7 +3547,7 @@ if menu.startswith("📋 1."):
                                 <div style="background: rgba(124, 58, 237, 0.08); border-left: 3.5px solid #c084fc; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px;">
                                     <span style="font-size: 0.81rem; font-weight: 700; color: #c084fc;">💡 Información obtenida automáticamente:</span>
                                     <span style="font-size: 0.77rem; color: #cbd5e1; margin-left: 4px;">
-                                        Kallpa IA rescata automáticamente estos datos de lo que escribes o hablas. <b>No es obligatorio que los llenes</b>; solo revísalos si deseas agregar o corregir algo.
+                                        Amparo IA rescata automáticamente estos datos de lo que escribes o hablas. <b>No es obligatorio que los llenes</b>; solo revísalos si deseas agregar o corregir algo.
                                     </span>
                                 </div>
                                 """, unsafe_allow_html=True)
@@ -3563,7 +3704,7 @@ if menu.startswith("📋 1."):
                         with col_k_head:
                             st.markdown("""
                             <div style="margin-top: 2px;">
-                                <span style="font-weight: 800; color: #38bdf8; font-size: 1.0rem;">🤖 Kallpa IA</span>
+                                <span style="font-weight: 800; color: #38bdf8; font-size: 1.0rem;">🤖 Amparo IA</span>
                                 <span style="font-size: 0.72rem; color: #34d399; font-weight: 600; margin-left: 6px;">🛡️ Identidad Protegida (Zero-PII)</span>
                             </div>
                             """, unsafe_allow_html=True)
@@ -3584,7 +3725,7 @@ if menu.startswith("📋 1."):
                         with col_k_head:
                             st.markdown("""
                             <div style="margin-top: 2px;">
-                                <span style="font-weight: 800; color: #38bdf8; font-size: 1.0rem;">🤖 Kallpa IA</span>
+                                <span style="font-weight: 800; color: #38bdf8; font-size: 1.0rem;">🤖 Amparo IA</span>
                                 <span style="font-size: 0.72rem; color: #34d399; font-weight: 600; margin-left: 6px;">🛡️ Identidad Protegida (Zero-PII)</span>
                             </div>
                             """, unsafe_allow_html=True)
@@ -3653,7 +3794,7 @@ if menu.startswith("📋 1."):
                                 """, unsafe_allow_html=True)
                             else:
                                 curr_lang_tag = st.session_state.get("idioma_seleccionado", "Español (Castellano)")
-                                nombre_agente = "🤖 Kallpa (Inteligencia Artificial Yanapaq):" if (es_quechua or es_ashaninka or es_shipibo) else "🤖 Kallpa (Agente de Inteligencia Artificial):"
+                                nombre_agente = "🤖 Amparo (Inteligencia Artificial Yanapaq):" if (es_quechua or es_ashaninka or es_shipibo) else "🤖 Amparo (Agente de Inteligencia Artificial):"
                                 sub_agente = f"{curr_lang_tag} • Gemini 3.7 Flash"
                                 st.markdown(f"""
                                 <div style="background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10b981; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; text-align: left;">
@@ -3689,8 +3830,19 @@ if menu.startswith("📋 1."):
                             nuevo_mensaje=nuevo_chat_msg,
                             ficha_previa=st.session_state.kallpa_ficha_en_vivo
                         )
-                        st.session_state.kallpa_chat_messages.append({"role": "assistant", "content": res_k.get("respuesta_kallpa", "Información recibida.")})
-                        st.session_state.kallpa_ficha_en_vivo.update(res_k.get("ficha_actualizada", {}))
+                        resp_content = res_k.get("respuesta_kallpa") or res_k.get("respuesta_asistente") or res_k.get("mensaje_contencion") or "Información registrada en tu expediente táctico."
+                        st.session_state.kallpa_chat_messages.append({"role": "assistant", "content": resp_content})
+                        ficha_act = res_k.get("ficha_actualizada", {})
+                        if ficha_act:
+                            st.session_state.kallpa_ficha_en_vivo.update(ficha_act)
+                            if ficha_act.get("resumen_hechos"):
+                                st.session_state["live_resumen"] = ficha_act["resumen_hechos"]
+                            if ficha_act.get("telefono_extorsionador"):
+                                st.session_state["live_tel_ext"] = ficha_act["telefono_extorsionador"]
+                            if ficha_act.get("monto_exigido"):
+                                st.session_state["live_monto"] = ficha_act["monto_exigido"]
+                            if ficha_act.get("banda_u_organizacion"):
+                                st.session_state["live_banda"] = ficha_act["banda_u_organizacion"]
                         st.rerun()
 
                     # --------------------------------------------------------------
@@ -4191,9 +4343,9 @@ if menu.startswith("📋 1."):
                                 st.rerun()
 
         # ======================================================================
-        # 📝 TAB 2: MODO FORMULARIO CLÁSICO RÁPIDO
+        # 📝 TAB 2: MODO FORMULARIO CLÁSICO RÁPIDO (UNIFICADO EN VISTA DIRECTA)
         # ======================================================================
-        with tab_formulario_clasico:
+        if False:
             if not st.session_state.get("form_submission_active"):
                 st.markdown("##### ⚡ Casos de Prueba 1-Clic para Demostración Directa:")
                 col_b1, col_b2, col_b3, col_b4, col_b5, col_b6 = st.columns(6)

@@ -374,4 +374,4 @@ SARA incorporates defense-in-depth cybersecurity across 5 physical and cryptogra
 
 ---
 
-*SARA v2.5 - Conceived, Designed, and Developed by **Carlos Eduardo Baños Diaz** for the All Things Agentic Hackathon | Google Cloud & Devpost © 2026. All Rights Reserved.*
+*SARA v2.1.0-hackathon - Conceived, Designed, and Developed by **Carlos Eduardo Baños Diaz** for the All Things Agentic Hackathon | Google Cloud & Devpost © 2026. All Rights Reserved.*

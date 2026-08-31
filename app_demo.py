@@ -2047,8 +2047,8 @@ if menu.startswith("📋 1."):
         # ======================================================================
         # 🌐 INICIALIZACIÓN GLOBAL DE VAPI WEBRTC (LLAMADA DE VOZ EN VIVO LÍNEA 111)
         # ======================================================================
-        vapi_pk = settings.VAPI_PUBLIC_KEY or os.getenv("VAPI_PUBLIC_KEY", "")
-        vapi_asst_id = settings.VAPI_ASSISTANT_ID or os.getenv("VAPI_ASSISTANT_ID", "")
+        vapi_pk = os.getenv("VAPI_PUBLIC_KEY", "")
+        vapi_asst_id = os.getenv("VAPI_ASSISTANT_ID", "")
 
         if vapi_pk and vapi_asst_id:
             vapi_global_html = f"""
